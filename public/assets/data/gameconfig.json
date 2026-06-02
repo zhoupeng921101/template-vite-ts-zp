@@ -1,0 +1,46 @@
+{
+  "dynamic": {
+    "activationScore": 1000,
+    "factorList": {
+      "FILL":                { "basic":  40, "consecutive":  20 },
+      "RANDOM_NO_DIE":       { "basic":  15, "consecutive":   5 },
+      "ADD3":                { "basic": -25, "consecutive": -10 },
+      "EASY_DIFF":           { "basic":  30, "consecutive":  12 },
+      "DIFF":                { "basic": -40, "consecutive": -15 },
+      "STRAIGHT_DEATH_DIFF": { "basic": -80, "consecutive": -30 },
+      "CLEAR_ALL":           { "basic":  60, "consecutive":  30 },
+      "ALL_COMBINATION":     { "basic":  35, "consecutive":  15 }
+    },
+    "algorithmSamples": {
+      "FILL":                 80,
+      "RANDOM_NO_DIE":        50,
+      "ADD3":                 60,
+      "EASY_DIFF":            80,
+      "DIFF":                100,
+      "STRAIGHT_DEATH_DIFF": 200,
+      "CLEAR_ALL":           120,
+      "ALL_COMBINATION":     150
+    }
+  },
+  "shapeWeights": {
+    "1": 12,
+    "2":  9,
+    "3":  7,
+    "4":  5,
+    "5":  3,
+    "6+": 2
+  },
+  "firstHand": [9, 39, 24],
+  "tools": {
+    "refreshCount":   3,
+    "hammerCount":    3,
+    "lightningCount": 2
+  },
+  "stars": {
+    "ratios": [1.0, 1.5, 2.0]
+  },
+  "audio": {
+    "sfxVolume": 0.5,
+    "bgmVolume": 0.3
+  }
+}

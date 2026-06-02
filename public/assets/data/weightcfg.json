@@ -1,0 +1,2586 @@
+[
+  {
+    "id": 1,
+    "FillBlankOdds": 299,
+    "RandomOdds": 55,
+    "EntropyOdds": 75,
+    "EasyOdds": 0,
+    "HardOdds": 203,
+    "IntuitionOdds": 0,
+    "Clearboard": 49,
+    "Allunite": 319,
+    "HighScoreRange": [
+      1000,
+      3795
+    ],
+    "FactorRange": [
+      -9999,
+      -410
+    ]
+  },
+  {
+    "id": 2,
+    "FillBlankOdds": 429,
+    "RandomOdds": 36,
+    "EntropyOdds": 68,
+    "EasyOdds": 0,
+    "HardOdds": 201,
+    "IntuitionOdds": 0,
+    "Clearboard": 61,
+    "Allunite": 205,
+    "HighScoreRange": [
+      1000,
+      3795
+    ],
+    "FactorRange": [
+      -410,
+      -310
+    ]
+  },
+  {
+    "id": 3,
+    "FillBlankOdds": 476,
+    "RandomOdds": 30,
+    "EntropyOdds": 65,
+    "EasyOdds": 0,
+    "HardOdds": 196,
+    "IntuitionOdds": 0,
+    "Clearboard": 60,
+    "Allunite": 173,
+    "HighScoreRange": [
+      1000,
+      3795
+    ],
+    "FactorRange": [
+      -310,
+      -290
+    ]
+  },
+  {
+    "id": 4,
+    "FillBlankOdds": 503,
+    "RandomOdds": 28,
+    "EntropyOdds": 63,
+    "EasyOdds": 0,
+    "HardOdds": 192,
+    "IntuitionOdds": 0,
+    "Clearboard": 58,
+    "Allunite": 156,
+    "HighScoreRange": [
+      1000,
+      3795
+    ],
+    "FactorRange": [
+      -290,
+      -225
+    ]
+  },
+  {
+    "id": 5,
+    "FillBlankOdds": 575,
+    "RandomOdds": 22,
+    "EntropyOdds": 51,
+    "EasyOdds": 0,
+    "HardOdds": 176,
+    "IntuitionOdds": 0,
+    "Clearboard": 55,
+    "Allunite": 121,
+    "HighScoreRange": [
+      1000,
+      3795
+    ],
+    "FactorRange": [
+      -225,
+      -170
+    ]
+  },
+  {
+    "id": 6,
+    "FillBlankOdds": 614,
+    "RandomOdds": 19,
+    "EntropyOdds": 50,
+    "EasyOdds": 0,
+    "HardOdds": 169,
+    "IntuitionOdds": 0,
+    "Clearboard": 46,
+    "Allunite": 102,
+    "HighScoreRange": [
+      1000,
+      3795
+    ],
+    "FactorRange": [
+      -170,
+      -130
+    ]
+  },
+  {
+    "id": 7,
+    "FillBlankOdds": 631,
+    "RandomOdds": 16,
+    "EntropyOdds": 58,
+    "EasyOdds": 0,
+    "HardOdds": 169,
+    "IntuitionOdds": 0,
+    "Clearboard": 39,
+    "Allunite": 87,
+    "HighScoreRange": [
+      1000,
+      3795
+    ],
+    "FactorRange": [
+      -130,
+      -105
+    ]
+  },
+  {
+    "id": 8,
+    "FillBlankOdds": 715,
+    "RandomOdds": 9,
+    "EntropyOdds": 38,
+    "EasyOdds": 0,
+    "HardOdds": 149,
+    "IntuitionOdds": 0,
+    "Clearboard": 36,
+    "Allunite": 53,
+    "HighScoreRange": [
+      1000,
+      3795
+    ],
+    "FactorRange": [
+      -105,
+      -70
+    ]
+  },
+  {
+    "id": 9,
+    "FillBlankOdds": 691,
+    "RandomOdds": 7,
+    "EntropyOdds": 54,
+    "EasyOdds": 0,
+    "HardOdds": 172,
+    "IntuitionOdds": 0,
+    "Clearboard": 27,
+    "Allunite": 49,
+    "HighScoreRange": [
+      1000,
+      3795
+    ],
+    "FactorRange": [
+      -70,
+      -40
+    ]
+  },
+  {
+    "id": 10,
+    "FillBlankOdds": 798,
+    "RandomOdds": 3,
+    "EntropyOdds": 29,
+    "EasyOdds": 0,
+    "HardOdds": 123,
+    "IntuitionOdds": 0,
+    "Clearboard": 22,
+    "Allunite": 25,
+    "HighScoreRange": [
+      1000,
+      3795
+    ],
+    "FactorRange": [
+      -40,
+      -10
+    ]
+  },
+  {
+    "id": 11,
+    "FillBlankOdds": 770,
+    "RandomOdds": 2,
+    "EntropyOdds": 37,
+    "EasyOdds": 0,
+    "HardOdds": 146,
+    "IntuitionOdds": 0,
+    "Clearboard": 20,
+    "Allunite": 25,
+    "HighScoreRange": [
+      1000,
+      3795
+    ],
+    "FactorRange": [
+      -10,
+      10
+    ]
+  },
+  {
+    "id": 12,
+    "FillBlankOdds": 156,
+    "RandomOdds": 10,
+    "EntropyOdds": 40,
+    "EasyOdds": 1,
+    "HardOdds": 694,
+    "IntuitionOdds": 0,
+    "Clearboard": 0,
+    "Allunite": 99,
+    "HighScoreRange": [
+      1000,
+      3795
+    ],
+    "FactorRange": [
+      10,
+      30
+    ]
+  },
+  {
+    "id": 13,
+    "FillBlankOdds": 186,
+    "RandomOdds": 11,
+    "EntropyOdds": 42,
+    "EasyOdds": 1,
+    "HardOdds": 653,
+    "IntuitionOdds": 0,
+    "Clearboard": 1,
+    "Allunite": 106,
+    "HighScoreRange": [
+      1000,
+      3795
+    ],
+    "FactorRange": [
+      30,
+      50
+    ]
+  },
+  {
+    "id": 14,
+    "FillBlankOdds": 162,
+    "RandomOdds": 9,
+    "EntropyOdds": 35,
+    "EasyOdds": 0,
+    "HardOdds": 707,
+    "IntuitionOdds": 0,
+    "Clearboard": 1,
+    "Allunite": 86,
+    "HighScoreRange": [
+      1000,
+      3795
+    ],
+    "FactorRange": [
+      50,
+      70
+    ]
+  },
+  {
+    "id": 15,
+    "FillBlankOdds": 172,
+    "RandomOdds": 8,
+    "EntropyOdds": 42,
+    "EasyOdds": 0,
+    "HardOdds": 680,
+    "IntuitionOdds": 0,
+    "Clearboard": 0,
+    "Allunite": 98,
+    "HighScoreRange": [
+      1000,
+      3795
+    ],
+    "FactorRange": [
+      70,
+      90
+    ]
+  },
+  {
+    "id": 16,
+    "FillBlankOdds": 159,
+    "RandomOdds": 8,
+    "EntropyOdds": 33,
+    "EasyOdds": 0,
+    "HardOdds": 709,
+    "IntuitionOdds": 0,
+    "Clearboard": 0,
+    "Allunite": 91,
+    "HighScoreRange": [
+      1000,
+      3795
+    ],
+    "FactorRange": [
+      90,
+      130
+    ]
+  },
+  {
+    "id": 17,
+    "FillBlankOdds": 45,
+    "RandomOdds": 3,
+    "EntropyOdds": 8,
+    "EasyOdds": 0,
+    "HardOdds": 908,
+    "IntuitionOdds": 0,
+    "Clearboard": 0,
+    "Allunite": 36,
+    "HighScoreRange": [
+      1000,
+      3795
+    ],
+    "FactorRange": [
+      230,
+      9999
+    ]
+  },
+  {
+    "id": 18,
+    "FillBlankOdds": 331,
+    "RandomOdds": 46,
+    "EntropyOdds": 58,
+    "EasyOdds": 0,
+    "HardOdds": 238,
+    "IntuitionOdds": 0,
+    "Clearboard": 43,
+    "Allunite": 284,
+    "HighScoreRange": [
+      3795,
+      4597
+    ],
+    "FactorRange": [
+      -9999,
+      -410
+    ]
+  },
+  {
+    "id": 19,
+    "FillBlankOdds": 426,
+    "RandomOdds": 32,
+    "EntropyOdds": 56,
+    "EasyOdds": 0,
+    "HardOdds": 238,
+    "IntuitionOdds": 1,
+    "Clearboard": 50,
+    "Allunite": 197,
+    "HighScoreRange": [
+      3795,
+      4597
+    ],
+    "FactorRange": [
+      -410,
+      -310
+    ]
+  },
+  {
+    "id": 20,
+    "FillBlankOdds": 459,
+    "RandomOdds": 27,
+    "EntropyOdds": 56,
+    "EasyOdds": 0,
+    "HardOdds": 232,
+    "IntuitionOdds": 1,
+    "Clearboard": 53,
+    "Allunite": 172,
+    "HighScoreRange": [
+      3795,
+      4597
+    ],
+    "FactorRange": [
+      -310,
+      -290
+    ]
+  },
+  {
+    "id": 21,
+    "FillBlankOdds": 488,
+    "RandomOdds": 26,
+    "EntropyOdds": 57,
+    "EasyOdds": 1,
+    "HardOdds": 225,
+    "IntuitionOdds": 0,
+    "Clearboard": 50,
+    "Allunite": 153,
+    "HighScoreRange": [
+      3795,
+      4597
+    ],
+    "FactorRange": [
+      -290,
+      -225
+    ]
+  },
+  {
+    "id": 22,
+    "FillBlankOdds": 554,
+    "RandomOdds": 19,
+    "EntropyOdds": 44,
+    "EasyOdds": 0,
+    "HardOdds": 213,
+    "IntuitionOdds": 0,
+    "Clearboard": 49,
+    "Allunite": 121,
+    "HighScoreRange": [
+      3795,
+      4597
+    ],
+    "FactorRange": [
+      -225,
+      -170
+    ]
+  },
+  {
+    "id": 23,
+    "FillBlankOdds": 590,
+    "RandomOdds": 16,
+    "EntropyOdds": 43,
+    "EasyOdds": 0,
+    "HardOdds": 204,
+    "IntuitionOdds": 0,
+    "Clearboard": 44,
+    "Allunite": 103,
+    "HighScoreRange": [
+      3795,
+      4597
+    ],
+    "FactorRange": [
+      -170,
+      -130
+    ]
+  },
+  {
+    "id": 24,
+    "FillBlankOdds": 607,
+    "RandomOdds": 14,
+    "EntropyOdds": 47,
+    "EasyOdds": 1,
+    "HardOdds": 202,
+    "IntuitionOdds": 0,
+    "Clearboard": 37,
+    "Allunite": 92,
+    "HighScoreRange": [
+      3795,
+      4597
+    ],
+    "FactorRange": [
+      -130,
+      -105
+    ]
+  },
+  {
+    "id": 25,
+    "FillBlankOdds": 681,
+    "RandomOdds": 8,
+    "EntropyOdds": 31,
+    "EasyOdds": 0,
+    "HardOdds": 188,
+    "IntuitionOdds": 0,
+    "Clearboard": 35,
+    "Allunite": 57,
+    "HighScoreRange": [
+      3795,
+      4597
+    ],
+    "FactorRange": [
+      -105,
+      -70
+    ]
+  },
+  {
+    "id": 26,
+    "FillBlankOdds": 660,
+    "RandomOdds": 7,
+    "EntropyOdds": 43,
+    "EasyOdds": 0,
+    "HardOdds": 207,
+    "IntuitionOdds": 0,
+    "Clearboard": 28,
+    "Allunite": 55,
+    "HighScoreRange": [
+      3795,
+      4597
+    ],
+    "FactorRange": [
+      -70,
+      -40
+    ]
+  },
+  {
+    "id": 27,
+    "FillBlankOdds": 762,
+    "RandomOdds": 3,
+    "EntropyOdds": 25,
+    "EasyOdds": 0,
+    "HardOdds": 160,
+    "IntuitionOdds": 0,
+    "Clearboard": 24,
+    "Allunite": 26,
+    "HighScoreRange": [
+      3795,
+      4597
+    ],
+    "FactorRange": [
+      -40,
+      -10
+    ]
+  },
+  {
+    "id": 28,
+    "FillBlankOdds": 726,
+    "RandomOdds": 2,
+    "EntropyOdds": 38,
+    "EasyOdds": 0,
+    "HardOdds": 188,
+    "IntuitionOdds": 0,
+    "Clearboard": 21,
+    "Allunite": 25,
+    "HighScoreRange": [
+      3795,
+      4597
+    ],
+    "FactorRange": [
+      -10,
+      10
+    ]
+  },
+  {
+    "id": 29,
+    "FillBlankOdds": 141,
+    "RandomOdds": 8,
+    "EntropyOdds": 32,
+    "EasyOdds": 1,
+    "HardOdds": 733,
+    "IntuitionOdds": 0,
+    "Clearboard": 0,
+    "Allunite": 85,
+    "HighScoreRange": [
+      3795,
+      4597
+    ],
+    "FactorRange": [
+      10,
+      30
+    ]
+  },
+  {
+    "id": 30,
+    "FillBlankOdds": 163,
+    "RandomOdds": 8,
+    "EntropyOdds": 31,
+    "EasyOdds": 1,
+    "HardOdds": 701,
+    "IntuitionOdds": 0,
+    "Clearboard": 0,
+    "Allunite": 96,
+    "HighScoreRange": [
+      3795,
+      4597
+    ],
+    "FactorRange": [
+      30,
+      50
+    ]
+  },
+  {
+    "id": 31,
+    "FillBlankOdds": 141,
+    "RandomOdds": 9,
+    "EntropyOdds": 21,
+    "EasyOdds": 1,
+    "HardOdds": 749,
+    "IntuitionOdds": 0,
+    "Clearboard": 0,
+    "Allunite": 79,
+    "HighScoreRange": [
+      3795,
+      4597
+    ],
+    "FactorRange": [
+      50,
+      70
+    ]
+  },
+  {
+    "id": 32,
+    "FillBlankOdds": 159,
+    "RandomOdds": 10,
+    "EntropyOdds": 26,
+    "EasyOdds": 1,
+    "HardOdds": 711,
+    "IntuitionOdds": 0,
+    "Clearboard": 0,
+    "Allunite": 93,
+    "HighScoreRange": [
+      3795,
+      4597
+    ],
+    "FactorRange": [
+      70,
+      90
+    ]
+  },
+  {
+    "id": 33,
+    "FillBlankOdds": 142,
+    "RandomOdds": 7,
+    "EntropyOdds": 22,
+    "EasyOdds": 1,
+    "HardOdds": 755,
+    "IntuitionOdds": 0,
+    "Clearboard": 0,
+    "Allunite": 73,
+    "HighScoreRange": [
+      3795,
+      4597
+    ],
+    "FactorRange": [
+      90,
+      130
+    ]
+  },
+  {
+    "id": 34,
+    "FillBlankOdds": 35,
+    "RandomOdds": 3,
+    "EntropyOdds": 3,
+    "EasyOdds": 0,
+    "HardOdds": 925,
+    "IntuitionOdds": 0,
+    "Clearboard": 1,
+    "Allunite": 33,
+    "HighScoreRange": [
+      3795,
+      4597
+    ],
+    "FactorRange": [
+      230,
+      9999
+    ]
+  },
+  {
+    "id": 35,
+    "FillBlankOdds": 323,
+    "RandomOdds": 51,
+    "EntropyOdds": 39,
+    "EasyOdds": 0,
+    "HardOdds": 256,
+    "IntuitionOdds": 0,
+    "Clearboard": 44,
+    "Allunite": 287,
+    "HighScoreRange": [
+      4597,
+      6460
+    ],
+    "FactorRange": [
+      -9999,
+      -410
+    ]
+  },
+  {
+    "id": 36,
+    "FillBlankOdds": 425,
+    "RandomOdds": 33,
+    "EntropyOdds": 37,
+    "EasyOdds": 0,
+    "HardOdds": 252,
+    "IntuitionOdds": 0,
+    "Clearboard": 54,
+    "Allunite": 199,
+    "HighScoreRange": [
+      4597,
+      6460
+    ],
+    "FactorRange": [
+      -410,
+      -310
+    ]
+  },
+  {
+    "id": 37,
+    "FillBlankOdds": 464,
+    "RandomOdds": 30,
+    "EntropyOdds": 34,
+    "EasyOdds": 0,
+    "HardOdds": 244,
+    "IntuitionOdds": 0,
+    "Clearboard": 55,
+    "Allunite": 173,
+    "HighScoreRange": [
+      4597,
+      6460
+    ],
+    "FactorRange": [
+      -310,
+      -290
+    ]
+  },
+  {
+    "id": 38,
+    "FillBlankOdds": 488,
+    "RandomOdds": 28,
+    "EntropyOdds": 36,
+    "EasyOdds": 0,
+    "HardOdds": 237,
+    "IntuitionOdds": 0,
+    "Clearboard": 53,
+    "Allunite": 158,
+    "HighScoreRange": [
+      4597,
+      6460
+    ],
+    "FactorRange": [
+      -290,
+      -225
+    ]
+  },
+  {
+    "id": 39,
+    "FillBlankOdds": 557,
+    "RandomOdds": 21,
+    "EntropyOdds": 28,
+    "EasyOdds": 0,
+    "HardOdds": 218,
+    "IntuitionOdds": 0,
+    "Clearboard": 53,
+    "Allunite": 123,
+    "HighScoreRange": [
+      4597,
+      6460
+    ],
+    "FactorRange": [
+      -225,
+      -170
+    ]
+  },
+  {
+    "id": 40,
+    "FillBlankOdds": 601,
+    "RandomOdds": 18,
+    "EntropyOdds": 28,
+    "EasyOdds": 0,
+    "HardOdds": 202,
+    "IntuitionOdds": 0,
+    "Clearboard": 46,
+    "Allunite": 105,
+    "HighScoreRange": [
+      4597,
+      6460
+    ],
+    "FactorRange": [
+      -170,
+      -130
+    ]
+  },
+  {
+    "id": 41,
+    "FillBlankOdds": 619,
+    "RandomOdds": 17,
+    "EntropyOdds": 35,
+    "EasyOdds": 0,
+    "HardOdds": 195,
+    "IntuitionOdds": 1,
+    "Clearboard": 39,
+    "Allunite": 94,
+    "HighScoreRange": [
+      4597,
+      6460
+    ],
+    "FactorRange": [
+      -130,
+      -105
+    ]
+  },
+  {
+    "id": 42,
+    "FillBlankOdds": 697,
+    "RandomOdds": 9,
+    "EntropyOdds": 22,
+    "EasyOdds": 0,
+    "HardOdds": 178,
+    "IntuitionOdds": 1,
+    "Clearboard": 35,
+    "Allunite": 58,
+    "HighScoreRange": [
+      4597,
+      6460
+    ],
+    "FactorRange": [
+      -105,
+      -70
+    ]
+  },
+  {
+    "id": 43,
+    "FillBlankOdds": 680,
+    "RandomOdds": 8,
+    "EntropyOdds": 33,
+    "EasyOdds": 0,
+    "HardOdds": 197,
+    "IntuitionOdds": 1,
+    "Clearboard": 28,
+    "Allunite": 53,
+    "HighScoreRange": [
+      4597,
+      6460
+    ],
+    "FactorRange": [
+      -70,
+      -40
+    ]
+  },
+  {
+    "id": 44,
+    "FillBlankOdds": 791,
+    "RandomOdds": 3,
+    "EntropyOdds": 19,
+    "EasyOdds": 0,
+    "HardOdds": 142,
+    "IntuitionOdds": 1,
+    "Clearboard": 20,
+    "Allunite": 24,
+    "HighScoreRange": [
+      4597,
+      6460
+    ],
+    "FactorRange": [
+      -40,
+      -10
+    ]
+  },
+  {
+    "id": 45,
+    "FillBlankOdds": 767,
+    "RandomOdds": 2,
+    "EntropyOdds": 28,
+    "EasyOdds": 0,
+    "HardOdds": 159,
+    "IntuitionOdds": 1,
+    "Clearboard": 17,
+    "Allunite": 26,
+    "HighScoreRange": [
+      4597,
+      6460
+    ],
+    "FactorRange": [
+      -10,
+      10
+    ]
+  },
+  {
+    "id": 46,
+    "FillBlankOdds": 144,
+    "RandomOdds": 10,
+    "EntropyOdds": 27,
+    "EasyOdds": 0,
+    "HardOdds": 717,
+    "IntuitionOdds": 4,
+    "Clearboard": 0,
+    "Allunite": 98,
+    "HighScoreRange": [
+      4597,
+      6460
+    ],
+    "FactorRange": [
+      10,
+      30
+    ]
+  },
+  {
+    "id": 47,
+    "FillBlankOdds": 166,
+    "RandomOdds": 10,
+    "EntropyOdds": 24,
+    "EasyOdds": 0,
+    "HardOdds": 688,
+    "IntuitionOdds": 3,
+    "Clearboard": 1,
+    "Allunite": 108,
+    "HighScoreRange": [
+      4597,
+      6460
+    ],
+    "FactorRange": [
+      30,
+      50
+    ]
+  },
+  {
+    "id": 48,
+    "FillBlankOdds": 143,
+    "RandomOdds": 9,
+    "EntropyOdds": 22,
+    "EasyOdds": 0,
+    "HardOdds": 729,
+    "IntuitionOdds": 3,
+    "Clearboard": 0,
+    "Allunite": 94,
+    "HighScoreRange": [
+      4597,
+      6460
+    ],
+    "FactorRange": [
+      50,
+      70
+    ]
+  },
+  {
+    "id": 49,
+    "FillBlankOdds": 154,
+    "RandomOdds": 11,
+    "EntropyOdds": 22,
+    "EasyOdds": 0,
+    "HardOdds": 707,
+    "IntuitionOdds": 3,
+    "Clearboard": 0,
+    "Allunite": 103,
+    "HighScoreRange": [
+      4597,
+      6460
+    ],
+    "FactorRange": [
+      70,
+      90
+    ]
+  },
+  {
+    "id": 50,
+    "FillBlankOdds": 139,
+    "RandomOdds": 8,
+    "EntropyOdds": 19,
+    "EasyOdds": 0,
+    "HardOdds": 741,
+    "IntuitionOdds": 2,
+    "Clearboard": 1,
+    "Allunite": 90,
+    "HighScoreRange": [
+      4597,
+      6460
+    ],
+    "FactorRange": [
+      90,
+      130
+    ]
+  },
+  {
+    "id": 51,
+    "FillBlankOdds": 38,
+    "RandomOdds": 3,
+    "EntropyOdds": 4,
+    "EasyOdds": 0,
+    "HardOdds": 918,
+    "IntuitionOdds": 0,
+    "Clearboard": 1,
+    "Allunite": 36,
+    "HighScoreRange": [
+      4597,
+      6460
+    ],
+    "FactorRange": [
+      230,
+      9999
+    ]
+  },
+  {
+    "id": 52,
+    "FillBlankOdds": 311,
+    "RandomOdds": 53,
+    "EntropyOdds": 32,
+    "EasyOdds": 0,
+    "HardOdds": 266,
+    "IntuitionOdds": 0,
+    "Clearboard": 43,
+    "Allunite": 295,
+    "HighScoreRange": [
+      6460,
+      9265
+    ],
+    "FactorRange": [
+      -9999,
+      -410
+    ]
+  },
+  {
+    "id": 53,
+    "FillBlankOdds": 409,
+    "RandomOdds": 35,
+    "EntropyOdds": 29,
+    "EasyOdds": 0,
+    "HardOdds": 263,
+    "IntuitionOdds": 0,
+    "Clearboard": 55,
+    "Allunite": 209,
+    "HighScoreRange": [
+      6460,
+      9265
+    ],
+    "FactorRange": [
+      -410,
+      -310
+    ]
+  },
+  {
+    "id": 54,
+    "FillBlankOdds": 448,
+    "RandomOdds": 31,
+    "EntropyOdds": 28,
+    "EasyOdds": 0,
+    "HardOdds": 255,
+    "IntuitionOdds": 0,
+    "Clearboard": 57,
+    "Allunite": 181,
+    "HighScoreRange": [
+      6460,
+      9265
+    ],
+    "FactorRange": [
+      -310,
+      -290
+    ]
+  },
+  {
+    "id": 55,
+    "FillBlankOdds": 477,
+    "RandomOdds": 28,
+    "EntropyOdds": 28,
+    "EasyOdds": 0,
+    "HardOdds": 242,
+    "IntuitionOdds": 0,
+    "Clearboard": 57,
+    "Allunite": 168,
+    "HighScoreRange": [
+      6460,
+      9265
+    ],
+    "FactorRange": [
+      -290,
+      -225
+    ]
+  },
+  {
+    "id": 56,
+    "FillBlankOdds": 547,
+    "RandomOdds": 23,
+    "EntropyOdds": 23,
+    "EasyOdds": 0,
+    "HardOdds": 220,
+    "IntuitionOdds": 0,
+    "Clearboard": 56,
+    "Allunite": 131,
+    "HighScoreRange": [
+      6460,
+      9265
+    ],
+    "FactorRange": [
+      -225,
+      -170
+    ]
+  },
+  {
+    "id": 57,
+    "FillBlankOdds": 591,
+    "RandomOdds": 20,
+    "EntropyOdds": 24,
+    "EasyOdds": 0,
+    "HardOdds": 201,
+    "IntuitionOdds": 0,
+    "Clearboard": 48,
+    "Allunite": 116,
+    "HighScoreRange": [
+      6460,
+      9265
+    ],
+    "FactorRange": [
+      -170,
+      -130
+    ]
+  },
+  {
+    "id": 58,
+    "FillBlankOdds": 611,
+    "RandomOdds": 19,
+    "EntropyOdds": 30,
+    "EasyOdds": 0,
+    "HardOdds": 194,
+    "IntuitionOdds": 0,
+    "Clearboard": 41,
+    "Allunite": 105,
+    "HighScoreRange": [
+      6460,
+      9265
+    ],
+    "FactorRange": [
+      -130,
+      -105
+    ]
+  },
+  {
+    "id": 59,
+    "FillBlankOdds": 692,
+    "RandomOdds": 11,
+    "EntropyOdds": 20,
+    "EasyOdds": 0,
+    "HardOdds": 175,
+    "IntuitionOdds": 0,
+    "Clearboard": 36,
+    "Allunite": 66,
+    "HighScoreRange": [
+      6460,
+      9265
+    ],
+    "FactorRange": [
+      -105,
+      -70
+    ]
+  },
+  {
+    "id": 60,
+    "FillBlankOdds": 674,
+    "RandomOdds": 8,
+    "EntropyOdds": 31,
+    "EasyOdds": 1,
+    "HardOdds": 195,
+    "IntuitionOdds": 0,
+    "Clearboard": 28,
+    "Allunite": 63,
+    "HighScoreRange": [
+      6460,
+      9265
+    ],
+    "FactorRange": [
+      -70,
+      -40
+    ]
+  },
+  {
+    "id": 61,
+    "FillBlankOdds": 793,
+    "RandomOdds": 3,
+    "EntropyOdds": 18,
+    "EasyOdds": 0,
+    "HardOdds": 134,
+    "IntuitionOdds": 0,
+    "Clearboard": 20,
+    "Allunite": 32,
+    "HighScoreRange": [
+      6460,
+      9265
+    ],
+    "FactorRange": [
+      -40,
+      -10
+    ]
+  },
+  {
+    "id": 62,
+    "FillBlankOdds": 770,
+    "RandomOdds": 3,
+    "EntropyOdds": 25,
+    "EasyOdds": 1,
+    "HardOdds": 152,
+    "IntuitionOdds": 0,
+    "Clearboard": 17,
+    "Allunite": 32,
+    "HighScoreRange": [
+      6460,
+      9265
+    ],
+    "FactorRange": [
+      -10,
+      10
+    ]
+  },
+  {
+    "id": 63,
+    "FillBlankOdds": 133,
+    "RandomOdds": 12,
+    "EntropyOdds": 23,
+    "EasyOdds": 4,
+    "HardOdds": 698,
+    "IntuitionOdds": 2,
+    "Clearboard": 1,
+    "Allunite": 127,
+    "HighScoreRange": [
+      6460,
+      9265
+    ],
+    "FactorRange": [
+      10,
+      30
+    ]
+  },
+  {
+    "id": 64,
+    "FillBlankOdds": 150,
+    "RandomOdds": 12,
+    "EntropyOdds": 23,
+    "EasyOdds": 3,
+    "HardOdds": 674,
+    "IntuitionOdds": 1,
+    "Clearboard": 0,
+    "Allunite": 137,
+    "HighScoreRange": [
+      6460,
+      9265
+    ],
+    "FactorRange": [
+      30,
+      50
+    ]
+  },
+  {
+    "id": 65,
+    "FillBlankOdds": 135,
+    "RandomOdds": 11,
+    "EntropyOdds": 17,
+    "EasyOdds": 2,
+    "HardOdds": 713,
+    "IntuitionOdds": 2,
+    "Clearboard": 0,
+    "Allunite": 120,
+    "HighScoreRange": [
+      6460,
+      9265
+    ],
+    "FactorRange": [
+      50,
+      70
+    ]
+  },
+  {
+    "id": 66,
+    "FillBlankOdds": 141,
+    "RandomOdds": 12,
+    "EntropyOdds": 17,
+    "EasyOdds": 2,
+    "HardOdds": 700,
+    "IntuitionOdds": 1,
+    "Clearboard": 0,
+    "Allunite": 127,
+    "HighScoreRange": [
+      6460,
+      9265
+    ],
+    "FactorRange": [
+      70,
+      90
+    ]
+  },
+  {
+    "id": 67,
+    "FillBlankOdds": 125,
+    "RandomOdds": 10,
+    "EntropyOdds": 15,
+    "EasyOdds": 1,
+    "HardOdds": 734,
+    "IntuitionOdds": 1,
+    "Clearboard": 0,
+    "Allunite": 114,
+    "HighScoreRange": [
+      6460,
+      9265
+    ],
+    "FactorRange": [
+      90,
+      130
+    ]
+  },
+  {
+    "id": 68,
+    "FillBlankOdds": 33,
+    "RandomOdds": 4,
+    "EntropyOdds": 3,
+    "EasyOdds": 0,
+    "HardOdds": 917,
+    "IntuitionOdds": 0,
+    "Clearboard": 1,
+    "Allunite": 42,
+    "HighScoreRange": [
+      6460,
+      9265
+    ],
+    "FactorRange": [
+      230,
+      9999
+    ]
+  },
+  {
+    "id": 69,
+    "FillBlankOdds": 316,
+    "RandomOdds": 53,
+    "EntropyOdds": 35,
+    "EasyOdds": 0,
+    "HardOdds": 256,
+    "IntuitionOdds": 1,
+    "Clearboard": 48,
+    "Allunite": 291,
+    "HighScoreRange": [
+      9265,
+      11802
+    ],
+    "FactorRange": [
+      -9999,
+      -410
+    ]
+  },
+  {
+    "id": 70,
+    "FillBlankOdds": 417,
+    "RandomOdds": 36,
+    "EntropyOdds": 29,
+    "EasyOdds": 0,
+    "HardOdds": 254,
+    "IntuitionOdds": 0,
+    "Clearboard": 60,
+    "Allunite": 204,
+    "HighScoreRange": [
+      9265,
+      11802
+    ],
+    "FactorRange": [
+      -410,
+      -310
+    ]
+  },
+  {
+    "id": 71,
+    "FillBlankOdds": 456,
+    "RandomOdds": 32,
+    "EntropyOdds": 28,
+    "EasyOdds": 0,
+    "HardOdds": 245,
+    "IntuitionOdds": 0,
+    "Clearboard": 61,
+    "Allunite": 178,
+    "HighScoreRange": [
+      9265,
+      11802
+    ],
+    "FactorRange": [
+      -310,
+      -290
+    ]
+  },
+  {
+    "id": 72,
+    "FillBlankOdds": 484,
+    "RandomOdds": 29,
+    "EntropyOdds": 29,
+    "EasyOdds": 0,
+    "HardOdds": 233,
+    "IntuitionOdds": 0,
+    "Clearboard": 60,
+    "Allunite": 165,
+    "HighScoreRange": [
+      9265,
+      11802
+    ],
+    "FactorRange": [
+      -290,
+      -225
+    ]
+  },
+  {
+    "id": 73,
+    "FillBlankOdds": 554,
+    "RandomOdds": 24,
+    "EntropyOdds": 23,
+    "EasyOdds": 0,
+    "HardOdds": 209,
+    "IntuitionOdds": 0,
+    "Clearboard": 59,
+    "Allunite": 131,
+    "HighScoreRange": [
+      9265,
+      11802
+    ],
+    "FactorRange": [
+      -225,
+      -170
+    ]
+  },
+  {
+    "id": 74,
+    "FillBlankOdds": 598,
+    "RandomOdds": 22,
+    "EntropyOdds": 24,
+    "EasyOdds": 0,
+    "HardOdds": 189,
+    "IntuitionOdds": 0,
+    "Clearboard": 50,
+    "Allunite": 117,
+    "HighScoreRange": [
+      9265,
+      11802
+    ],
+    "FactorRange": [
+      -170,
+      -130
+    ]
+  },
+  {
+    "id": 75,
+    "FillBlankOdds": 621,
+    "RandomOdds": 20,
+    "EntropyOdds": 30,
+    "EasyOdds": 0,
+    "HardOdds": 182,
+    "IntuitionOdds": 0,
+    "Clearboard": 41,
+    "Allunite": 106,
+    "HighScoreRange": [
+      9265,
+      11802
+    ],
+    "FactorRange": [
+      -130,
+      -105
+    ]
+  },
+  {
+    "id": 76,
+    "FillBlankOdds": 707,
+    "RandomOdds": 12,
+    "EntropyOdds": 21,
+    "EasyOdds": 0,
+    "HardOdds": 161,
+    "IntuitionOdds": 0,
+    "Clearboard": 35,
+    "Allunite": 64,
+    "HighScoreRange": [
+      9265,
+      11802
+    ],
+    "FactorRange": [
+      -105,
+      -70
+    ]
+  },
+  {
+    "id": 77,
+    "FillBlankOdds": 689,
+    "RandomOdds": 8,
+    "EntropyOdds": 32,
+    "EasyOdds": 0,
+    "HardOdds": 181,
+    "IntuitionOdds": 0,
+    "Clearboard": 27,
+    "Allunite": 63,
+    "HighScoreRange": [
+      9265,
+      11802
+    ],
+    "FactorRange": [
+      -70,
+      -40
+    ]
+  },
+  {
+    "id": 78,
+    "FillBlankOdds": 808,
+    "RandomOdds": 3,
+    "EntropyOdds": 19,
+    "EasyOdds": 0,
+    "HardOdds": 121,
+    "IntuitionOdds": 0,
+    "Clearboard": 19,
+    "Allunite": 30,
+    "HighScoreRange": [
+      9265,
+      11802
+    ],
+    "FactorRange": [
+      -40,
+      -10
+    ]
+  },
+  {
+    "id": 79,
+    "FillBlankOdds": 786,
+    "RandomOdds": 3,
+    "EntropyOdds": 27,
+    "EasyOdds": 0,
+    "HardOdds": 138,
+    "IntuitionOdds": 0,
+    "Clearboard": 16,
+    "Allunite": 30,
+    "HighScoreRange": [
+      9265,
+      11802
+    ],
+    "FactorRange": [
+      -10,
+      10
+    ]
+  },
+  {
+    "id": 80,
+    "FillBlankOdds": 133,
+    "RandomOdds": 13,
+    "EntropyOdds": 28,
+    "EasyOdds": 0,
+    "HardOdds": 694,
+    "IntuitionOdds": 2,
+    "Clearboard": 0,
+    "Allunite": 130,
+    "HighScoreRange": [
+      9265,
+      11802
+    ],
+    "FactorRange": [
+      10,
+      30
+    ]
+  },
+  {
+    "id": 81,
+    "FillBlankOdds": 143,
+    "RandomOdds": 15,
+    "EntropyOdds": 25,
+    "EasyOdds": 0,
+    "HardOdds": 678,
+    "IntuitionOdds": 1,
+    "Clearboard": 0,
+    "Allunite": 138,
+    "HighScoreRange": [
+      9265,
+      11802
+    ],
+    "FactorRange": [
+      30,
+      50
+    ]
+  },
+  {
+    "id": 82,
+    "FillBlankOdds": 131,
+    "RandomOdds": 12,
+    "EntropyOdds": 25,
+    "EasyOdds": 0,
+    "HardOdds": 709,
+    "IntuitionOdds": 1,
+    "Clearboard": 0,
+    "Allunite": 122,
+    "HighScoreRange": [
+      9265,
+      11802
+    ],
+    "FactorRange": [
+      50,
+      70
+    ]
+  },
+  {
+    "id": 83,
+    "FillBlankOdds": 137,
+    "RandomOdds": 12,
+    "EntropyOdds": 25,
+    "EasyOdds": 0,
+    "HardOdds": 695,
+    "IntuitionOdds": 1,
+    "Clearboard": 0,
+    "Allunite": 130,
+    "HighScoreRange": [
+      9265,
+      11802
+    ],
+    "FactorRange": [
+      70,
+      90
+    ]
+  },
+  {
+    "id": 84,
+    "FillBlankOdds": 124,
+    "RandomOdds": 12,
+    "EntropyOdds": 21,
+    "EasyOdds": 0,
+    "HardOdds": 728,
+    "IntuitionOdds": 1,
+    "Clearboard": 0,
+    "Allunite": 114,
+    "HighScoreRange": [
+      9265,
+      11802
+    ],
+    "FactorRange": [
+      90,
+      130
+    ]
+  },
+  {
+    "id": 85,
+    "FillBlankOdds": 33,
+    "RandomOdds": 4,
+    "EntropyOdds": 4,
+    "EasyOdds": 0,
+    "HardOdds": 921,
+    "IntuitionOdds": 0,
+    "Clearboard": 1,
+    "Allunite": 37,
+    "HighScoreRange": [
+      9265,
+      11802
+    ],
+    "FactorRange": [
+      230,
+      9999
+    ]
+  },
+  {
+    "id": 86,
+    "FillBlankOdds": 311,
+    "RandomOdds": 54,
+    "EntropyOdds": 35,
+    "EasyOdds": 0,
+    "HardOdds": 255,
+    "IntuitionOdds": 0,
+    "Clearboard": 49,
+    "Allunite": 296,
+    "HighScoreRange": [
+      11802,
+      14233
+    ],
+    "FactorRange": [
+      -9999,
+      -410
+    ]
+  },
+  {
+    "id": 87,
+    "FillBlankOdds": 412,
+    "RandomOdds": 37,
+    "EntropyOdds": 34,
+    "EasyOdds": 0,
+    "HardOdds": 243,
+    "IntuitionOdds": 0,
+    "Clearboard": 62,
+    "Allunite": 212,
+    "HighScoreRange": [
+      11802,
+      14233
+    ],
+    "FactorRange": [
+      -410,
+      -310
+    ]
+  },
+  {
+    "id": 88,
+    "FillBlankOdds": 452,
+    "RandomOdds": 33,
+    "EntropyOdds": 33,
+    "EasyOdds": 0,
+    "HardOdds": 229,
+    "IntuitionOdds": 0,
+    "Clearboard": 64,
+    "Allunite": 189,
+    "HighScoreRange": [
+      11802,
+      14233
+    ],
+    "FactorRange": [
+      -310,
+      -290
+    ]
+  },
+  {
+    "id": 89,
+    "FillBlankOdds": 480,
+    "RandomOdds": 31,
+    "EntropyOdds": 34,
+    "EasyOdds": 0,
+    "HardOdds": 218,
+    "IntuitionOdds": 0,
+    "Clearboard": 62,
+    "Allunite": 175,
+    "HighScoreRange": [
+      11802,
+      14233
+    ],
+    "FactorRange": [
+      -290,
+      -225
+    ]
+  },
+  {
+    "id": 90,
+    "FillBlankOdds": 554,
+    "RandomOdds": 26,
+    "EntropyOdds": 29,
+    "EasyOdds": 0,
+    "HardOdds": 191,
+    "IntuitionOdds": 0,
+    "Clearboard": 59,
+    "Allunite": 141,
+    "HighScoreRange": [
+      11802,
+      14233
+    ],
+    "FactorRange": [
+      -225,
+      -170
+    ]
+  },
+  {
+    "id": 91,
+    "FillBlankOdds": 600,
+    "RandomOdds": 24,
+    "EntropyOdds": 29,
+    "EasyOdds": 0,
+    "HardOdds": 172,
+    "IntuitionOdds": 0,
+    "Clearboard": 49,
+    "Allunite": 126,
+    "HighScoreRange": [
+      11802,
+      14233
+    ],
+    "FactorRange": [
+      -170,
+      -130
+    ]
+  },
+  {
+    "id": 92,
+    "FillBlankOdds": 620,
+    "RandomOdds": 22,
+    "EntropyOdds": 36,
+    "EasyOdds": 0,
+    "HardOdds": 168,
+    "IntuitionOdds": 0,
+    "Clearboard": 40,
+    "Allunite": 114,
+    "HighScoreRange": [
+      11802,
+      14233
+    ],
+    "FactorRange": [
+      -130,
+      -105
+    ]
+  },
+  {
+    "id": 93,
+    "FillBlankOdds": 715,
+    "RandomOdds": 13,
+    "EntropyOdds": 25,
+    "EasyOdds": 0,
+    "HardOdds": 144,
+    "IntuitionOdds": 0,
+    "Clearboard": 34,
+    "Allunite": 69,
+    "HighScoreRange": [
+      11802,
+      14233
+    ],
+    "FactorRange": [
+      -105,
+      -70
+    ]
+  },
+  {
+    "id": 94,
+    "FillBlankOdds": 697,
+    "RandomOdds": 9,
+    "EntropyOdds": 37,
+    "EasyOdds": 0,
+    "HardOdds": 166,
+    "IntuitionOdds": 0,
+    "Clearboard": 27,
+    "Allunite": 64,
+    "HighScoreRange": [
+      11802,
+      14233
+    ],
+    "FactorRange": [
+      -70,
+      -40
+    ]
+  },
+  {
+    "id": 95,
+    "FillBlankOdds": 820,
+    "RandomOdds": 4,
+    "EntropyOdds": 20,
+    "EasyOdds": 0,
+    "HardOdds": 107,
+    "IntuitionOdds": 0,
+    "Clearboard": 18,
+    "Allunite": 31,
+    "HighScoreRange": [
+      11802,
+      14233
+    ],
+    "FactorRange": [
+      -40,
+      -10
+    ]
+  },
+  {
+    "id": 96,
+    "FillBlankOdds": 799,
+    "RandomOdds": 3,
+    "EntropyOdds": 28,
+    "EasyOdds": 0,
+    "HardOdds": 123,
+    "IntuitionOdds": 0,
+    "Clearboard": 16,
+    "Allunite": 31,
+    "HighScoreRange": [
+      11802,
+      14233
+    ],
+    "FactorRange": [
+      -10,
+      10
+    ]
+  },
+  {
+    "id": 97,
+    "FillBlankOdds": 137,
+    "RandomOdds": 15,
+    "EntropyOdds": 33,
+    "EasyOdds": 1,
+    "HardOdds": 670,
+    "IntuitionOdds": 0,
+    "Clearboard": 0,
+    "Allunite": 144,
+    "HighScoreRange": [
+      11802,
+      14233
+    ],
+    "FactorRange": [
+      10,
+      30
+    ]
+  },
+  {
+    "id": 98,
+    "FillBlankOdds": 146,
+    "RandomOdds": 15,
+    "EntropyOdds": 34,
+    "EasyOdds": 1,
+    "HardOdds": 650,
+    "IntuitionOdds": 0,
+    "Clearboard": 0,
+    "Allunite": 154,
+    "HighScoreRange": [
+      11802,
+      14233
+    ],
+    "FactorRange": [
+      30,
+      50
+    ]
+  },
+  {
+    "id": 99,
+    "FillBlankOdds": 136,
+    "RandomOdds": 13,
+    "EntropyOdds": 28,
+    "EasyOdds": 1,
+    "HardOdds": 684,
+    "IntuitionOdds": 0,
+    "Clearboard": 0,
+    "Allunite": 138,
+    "HighScoreRange": [
+      11802,
+      14233
+    ],
+    "FactorRange": [
+      50,
+      70
+    ]
+  },
+  {
+    "id": 100,
+    "FillBlankOdds": 132,
+    "RandomOdds": 14,
+    "EntropyOdds": 29,
+    "EasyOdds": 1,
+    "HardOdds": 684,
+    "IntuitionOdds": 0,
+    "Clearboard": 0,
+    "Allunite": 140,
+    "HighScoreRange": [
+      11802,
+      14233
+    ],
+    "FactorRange": [
+      70,
+      90
+    ]
+  },
+  {
+    "id": 101,
+    "FillBlankOdds": 120,
+    "RandomOdds": 12,
+    "EntropyOdds": 26,
+    "EasyOdds": 1,
+    "HardOdds": 716,
+    "IntuitionOdds": 0,
+    "Clearboard": 0,
+    "Allunite": 125,
+    "HighScoreRange": [
+      11802,
+      14233
+    ],
+    "FactorRange": [
+      90,
+      130
+    ]
+  },
+  {
+    "id": 102,
+    "FillBlankOdds": 33,
+    "RandomOdds": 4,
+    "EntropyOdds": 5,
+    "EasyOdds": 0,
+    "HardOdds": 910,
+    "IntuitionOdds": 0,
+    "Clearboard": 1,
+    "Allunite": 47,
+    "HighScoreRange": [
+      11802,
+      14233
+    ],
+    "FactorRange": [
+      230,
+      9999
+    ]
+  },
+  {
+    "id": 103,
+    "FillBlankOdds": 313,
+    "RandomOdds": 55,
+    "EntropyOdds": 42,
+    "EasyOdds": 0,
+    "HardOdds": 243,
+    "IntuitionOdds": 0,
+    "Clearboard": 53,
+    "Allunite": 294,
+    "HighScoreRange": [
+      14233,
+      21872
+    ],
+    "FactorRange": [
+      -9999,
+      -410
+    ]
+  },
+  {
+    "id": 104,
+    "FillBlankOdds": 417,
+    "RandomOdds": 39,
+    "EntropyOdds": 44,
+    "EasyOdds": 0,
+    "HardOdds": 224,
+    "IntuitionOdds": 0,
+    "Clearboard": 64,
+    "Allunite": 212,
+    "HighScoreRange": [
+      14233,
+      21872
+    ],
+    "FactorRange": [
+      -410,
+      -310
+    ]
+  },
+  {
+    "id": 105,
+    "FillBlankOdds": 456,
+    "RandomOdds": 35,
+    "EntropyOdds": 44,
+    "EasyOdds": 0,
+    "HardOdds": 209,
+    "IntuitionOdds": 0,
+    "Clearboard": 65,
+    "Allunite": 191,
+    "HighScoreRange": [
+      14233,
+      21872
+    ],
+    "FactorRange": [
+      -310,
+      -290
+    ]
+  },
+  {
+    "id": 106,
+    "FillBlankOdds": 482,
+    "RandomOdds": 34,
+    "EntropyOdds": 47,
+    "EasyOdds": 0,
+    "HardOdds": 198,
+    "IntuitionOdds": 0,
+    "Clearboard": 62,
+    "Allunite": 177,
+    "HighScoreRange": [
+      14233,
+      21872
+    ],
+    "FactorRange": [
+      -290,
+      -225
+    ]
+  },
+  {
+    "id": 107,
+    "FillBlankOdds": 558,
+    "RandomOdds": 27,
+    "EntropyOdds": 41,
+    "EasyOdds": 0,
+    "HardOdds": 173,
+    "IntuitionOdds": 0,
+    "Clearboard": 58,
+    "Allunite": 143,
+    "HighScoreRange": [
+      14233,
+      21872
+    ],
+    "FactorRange": [
+      -225,
+      -170
+    ]
+  },
+  {
+    "id": 108,
+    "FillBlankOdds": 602,
+    "RandomOdds": 25,
+    "EntropyOdds": 42,
+    "EasyOdds": 0,
+    "HardOdds": 158,
+    "IntuitionOdds": 0,
+    "Clearboard": 47,
+    "Allunite": 126,
+    "HighScoreRange": [
+      14233,
+      21872
+    ],
+    "FactorRange": [
+      -170,
+      -130
+    ]
+  },
+  {
+    "id": 109,
+    "FillBlankOdds": 620,
+    "RandomOdds": 22,
+    "EntropyOdds": 49,
+    "EasyOdds": 0,
+    "HardOdds": 159,
+    "IntuitionOdds": 0,
+    "Clearboard": 38,
+    "Allunite": 112,
+    "HighScoreRange": [
+      14233,
+      21872
+    ],
+    "FactorRange": [
+      -130,
+      -105
+    ]
+  },
+  {
+    "id": 110,
+    "FillBlankOdds": 722,
+    "RandomOdds": 12,
+    "EntropyOdds": 34,
+    "EasyOdds": 0,
+    "HardOdds": 132,
+    "IntuitionOdds": 0,
+    "Clearboard": 34,
+    "Allunite": 66,
+    "HighScoreRange": [
+      14233,
+      21872
+    ],
+    "FactorRange": [
+      -105,
+      -70
+    ]
+  },
+  {
+    "id": 111,
+    "FillBlankOdds": 698,
+    "RandomOdds": 8,
+    "EntropyOdds": 48,
+    "EasyOdds": 0,
+    "HardOdds": 157,
+    "IntuitionOdds": 0,
+    "Clearboard": 27,
+    "Allunite": 62,
+    "HighScoreRange": [
+      14233,
+      21872
+    ],
+    "FactorRange": [
+      -70,
+      -40
+    ]
+  },
+  {
+    "id": 112,
+    "FillBlankOdds": 821,
+    "RandomOdds": 4,
+    "EntropyOdds": 25,
+    "EasyOdds": 0,
+    "HardOdds": 101,
+    "IntuitionOdds": 0,
+    "Clearboard": 19,
+    "Allunite": 30,
+    "HighScoreRange": [
+      14233,
+      21872
+    ],
+    "FactorRange": [
+      -40,
+      -10
+    ]
+  },
+  {
+    "id": 113,
+    "FillBlankOdds": 797,
+    "RandomOdds": 3,
+    "EntropyOdds": 33,
+    "EasyOdds": 0,
+    "HardOdds": 118,
+    "IntuitionOdds": 0,
+    "Clearboard": 18,
+    "Allunite": 31,
+    "HighScoreRange": [
+      14233,
+      21872
+    ],
+    "FactorRange": [
+      -10,
+      10
+    ]
+  },
+  {
+    "id": 114,
+    "FillBlankOdds": 144,
+    "RandomOdds": 14,
+    "EntropyOdds": 47,
+    "EasyOdds": 2,
+    "HardOdds": 655,
+    "IntuitionOdds": 1,
+    "Clearboard": 0,
+    "Allunite": 137,
+    "HighScoreRange": [
+      14233,
+      21872
+    ],
+    "FactorRange": [
+      10,
+      30
+    ]
+  },
+  {
+    "id": 115,
+    "FillBlankOdds": 153,
+    "RandomOdds": 15,
+    "EntropyOdds": 43,
+    "EasyOdds": 2,
+    "HardOdds": 645,
+    "IntuitionOdds": 1,
+    "Clearboard": 1,
+    "Allunite": 140,
+    "HighScoreRange": [
+      14233,
+      21872
+    ],
+    "FactorRange": [
+      30,
+      50
+    ]
+  },
+  {
+    "id": 116,
+    "FillBlankOdds": 142,
+    "RandomOdds": 13,
+    "EntropyOdds": 37,
+    "EasyOdds": 1,
+    "HardOdds": 677,
+    "IntuitionOdds": 1,
+    "Clearboard": 0,
+    "Allunite": 129,
+    "HighScoreRange": [
+      14233,
+      21872
+    ],
+    "FactorRange": [
+      50,
+      70
+    ]
+  },
+  {
+    "id": 117,
+    "FillBlankOdds": 139,
+    "RandomOdds": 13,
+    "EntropyOdds": 38,
+    "EasyOdds": 1,
+    "HardOdds": 679,
+    "IntuitionOdds": 0,
+    "Clearboard": 0,
+    "Allunite": 130,
+    "HighScoreRange": [
+      14233,
+      21872
+    ],
+    "FactorRange": [
+      70,
+      90
+    ]
+  },
+  {
+    "id": 118,
+    "FillBlankOdds": 127,
+    "RandomOdds": 12,
+    "EntropyOdds": 33,
+    "EasyOdds": 1,
+    "HardOdds": 710,
+    "IntuitionOdds": 0,
+    "Clearboard": 0,
+    "Allunite": 117,
+    "HighScoreRange": [
+      14233,
+      21872
+    ],
+    "FactorRange": [
+      90,
+      130
+    ]
+  },
+  {
+    "id": 119,
+    "FillBlankOdds": 31,
+    "RandomOdds": 4,
+    "EntropyOdds": 5,
+    "EasyOdds": 0,
+    "HardOdds": 914,
+    "IntuitionOdds": 0,
+    "Clearboard": 1,
+    "Allunite": 45,
+    "HighScoreRange": [
+      14233,
+      21872
+    ],
+    "FactorRange": [
+      230,
+      9999
+    ]
+  },
+  {
+    "id": 120,
+    "FillBlankOdds": 311,
+    "RandomOdds": 58,
+    "EntropyOdds": 67,
+    "EasyOdds": 0,
+    "HardOdds": 204,
+    "IntuitionOdds": 0,
+    "Clearboard": 54,
+    "Allunite": 306,
+    "HighScoreRange": [
+      21872,
+      426964
+    ],
+    "FactorRange": [
+      -9999,
+      -410
+    ]
+  },
+  {
+    "id": 121,
+    "FillBlankOdds": 433,
+    "RandomOdds": 40,
+    "EntropyOdds": 67,
+    "EasyOdds": 0,
+    "HardOdds": 183,
+    "IntuitionOdds": 0,
+    "Clearboard": 65,
+    "Allunite": 212,
+    "HighScoreRange": [
+      21872,
+      426964
+    ],
+    "FactorRange": [
+      -410,
+      -310
+    ]
+  },
+  {
+    "id": 122,
+    "FillBlankOdds": 475,
+    "RandomOdds": 37,
+    "EntropyOdds": 64,
+    "EasyOdds": 0,
+    "HardOdds": 172,
+    "IntuitionOdds": 0,
+    "Clearboard": 64,
+    "Allunite": 188,
+    "HighScoreRange": [
+      21872,
+      426964
+    ],
+    "FactorRange": [
+      -310,
+      -290
+    ]
+  },
+  {
+    "id": 123,
+    "FillBlankOdds": 498,
+    "RandomOdds": 35,
+    "EntropyOdds": 64,
+    "EasyOdds": 0,
+    "HardOdds": 167,
+    "IntuitionOdds": 0,
+    "Clearboard": 59,
+    "Allunite": 177,
+    "HighScoreRange": [
+      21872,
+      426964
+    ],
+    "FactorRange": [
+      -290,
+      -225
+    ]
+  },
+  {
+    "id": 124,
+    "FillBlankOdds": 581,
+    "RandomOdds": 28,
+    "EntropyOdds": 51,
+    "EasyOdds": 0,
+    "HardOdds": 144,
+    "IntuitionOdds": 0,
+    "Clearboard": 55,
+    "Allunite": 141,
+    "HighScoreRange": [
+      21872,
+      426964
+    ],
+    "FactorRange": [
+      -225,
+      -170
+    ]
+  },
+  {
+    "id": 125,
+    "FillBlankOdds": 626,
+    "RandomOdds": 25,
+    "EntropyOdds": 48,
+    "EasyOdds": 0,
+    "HardOdds": 135,
+    "IntuitionOdds": 0,
+    "Clearboard": 44,
+    "Allunite": 122,
+    "HighScoreRange": [
+      21872,
+      426964
+    ],
+    "FactorRange": [
+      -170,
+      -130
+    ]
+  },
+  {
+    "id": 126,
+    "FillBlankOdds": 640,
+    "RandomOdds": 21,
+    "EntropyOdds": 55,
+    "EasyOdds": 0,
+    "HardOdds": 143,
+    "IntuitionOdds": 0,
+    "Clearboard": 36,
+    "Allunite": 105,
+    "HighScoreRange": [
+      21872,
+      426964
+    ],
+    "FactorRange": [
+      -130,
+      -105
+    ]
+  },
+  {
+    "id": 127,
+    "FillBlankOdds": 747,
+    "RandomOdds": 11,
+    "EntropyOdds": 36,
+    "EasyOdds": 0,
+    "HardOdds": 113,
+    "IntuitionOdds": 0,
+    "Clearboard": 32,
+    "Allunite": 61,
+    "HighScoreRange": [
+      21872,
+      426964
+    ],
+    "FactorRange": [
+      -105,
+      -70
+    ]
+  },
+  {
+    "id": 128,
+    "FillBlankOdds": 719,
+    "RandomOdds": 8,
+    "EntropyOdds": 50,
+    "EasyOdds": 0,
+    "HardOdds": 140,
+    "IntuitionOdds": 0,
+    "Clearboard": 26,
+    "Allunite": 57,
+    "HighScoreRange": [
+      21872,
+      426964
+    ],
+    "FactorRange": [
+      -70,
+      -40
+    ]
+  },
+  {
+    "id": 129,
+    "FillBlankOdds": 836,
+    "RandomOdds": 3,
+    "EntropyOdds": 25,
+    "EasyOdds": 0,
+    "HardOdds": 89,
+    "IntuitionOdds": 0,
+    "Clearboard": 19,
+    "Allunite": 28,
+    "HighScoreRange": [
+      21872,
+      426964
+    ],
+    "FactorRange": [
+      -40,
+      -10
+    ]
+  },
+  {
+    "id": 130,
+    "FillBlankOdds": 813,
+    "RandomOdds": 3,
+    "EntropyOdds": 31,
+    "EasyOdds": 0,
+    "HardOdds": 106,
+    "IntuitionOdds": 0,
+    "Clearboard": 17,
+    "Allunite": 30,
+    "HighScoreRange": [
+      21872,
+      426964
+    ],
+    "FactorRange": [
+      -10,
+      10
+    ]
+  },
+  {
+    "id": 131,
+    "FillBlankOdds": 157,
+    "RandomOdds": 14,
+    "EntropyOdds": 54,
+    "EasyOdds": 1,
+    "HardOdds": 640,
+    "IntuitionOdds": 1,
+    "Clearboard": 1,
+    "Allunite": 132,
+    "HighScoreRange": [
+      21872,
+      426964
+    ],
+    "FactorRange": [
+      10,
+      30
+    ]
+  },
+  {
+    "id": 132,
+    "FillBlankOdds": 162,
+    "RandomOdds": 14,
+    "EntropyOdds": 52,
+    "EasyOdds": 1,
+    "HardOdds": 630,
+    "IntuitionOdds": 1,
+    "Clearboard": 1,
+    "Allunite": 139,
+    "HighScoreRange": [
+      21872,
+      426964
+    ],
+    "FactorRange": [
+      30,
+      50
+    ]
+  },
+  {
+    "id": 133,
+    "FillBlankOdds": 149,
+    "RandomOdds": 13,
+    "EntropyOdds": 49,
+    "EasyOdds": 1,
+    "HardOdds": 662,
+    "IntuitionOdds": 1,
+    "Clearboard": 0,
+    "Allunite": 125,
+    "HighScoreRange": [
+      21872,
+      426964
+    ],
+    "FactorRange": [
+      50,
+      70
+    ]
+  },
+  {
+    "id": 134,
+    "FillBlankOdds": 148,
+    "RandomOdds": 13,
+    "EntropyOdds": 46,
+    "EasyOdds": 1,
+    "HardOdds": 664,
+    "IntuitionOdds": 1,
+    "Clearboard": 1,
+    "Allunite": 126,
+    "HighScoreRange": [
+      21872,
+      426964
+    ],
+    "FactorRange": [
+      70,
+      90
+    ]
+  },
+  {
+    "id": 135,
+    "FillBlankOdds": 136,
+    "RandomOdds": 11,
+    "EntropyOdds": 39,
+    "EasyOdds": 0,
+    "HardOdds": 700,
+    "IntuitionOdds": 1,
+    "Clearboard": 1,
+    "Allunite": 112,
+    "HighScoreRange": [
+      21872,
+      426964
+    ],
+    "FactorRange": [
+      90,
+      130
+    ]
+  },
+  {
+    "id": 136,
+    "FillBlankOdds": 29,
+    "RandomOdds": 5,
+    "EntropyOdds": 6,
+    "EasyOdds": 0,
+    "HardOdds": 912,
+    "IntuitionOdds": 0,
+    "Clearboard": 1,
+    "Allunite": 47,
+    "HighScoreRange": [
+      21872,
+      426964
+    ],
+    "FactorRange": [
+      230,
+      9999
+    ]
+  }
+]

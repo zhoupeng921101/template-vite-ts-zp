@@ -20,6 +20,8 @@
     "build-nolog": "vite build --config vite/config.prod.mjs"
   },
   "devDependencies": {
+    "puppeteer": "^25.1.0",
+    "tsx": "^4.22.4",
     "typescript": "~5.7.2",
     "vite": "^6.3.1"
   },
