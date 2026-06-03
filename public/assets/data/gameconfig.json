@@ -16,19 +16,11 @@
       "RANDOM_NO_DIE":        50,
       "ADD3":                 60,
       "EASY_DIFF":            80,
-      "DIFF":                100,
-      "STRAIGHT_DEATH_DIFF": 200,
+      "DIFF":                160,
+      "STRAIGHT_DEATH_DIFF": 320,
       "CLEAR_ALL":           120,
       "ALL_COMBINATION":     150
     }
-  },
-  "shapeWeights": {
-    "1": 12,
-    "2":  9,
-    "3":  7,
-    "4":  5,
-    "5":  3,
-    "6+": 2
   },
   "firstHand": [9, 39, 24],
   "stars": {

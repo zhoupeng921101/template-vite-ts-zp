@@ -93,30 +93,19 @@ BlockShapeMap.forEach((shape, id) => {
     BlockNumMap.set(id, n);
 });
 
-// 常用形状 ID 列表（用于随机抽取）— 排除 5x5 这种特别难放的
+/**
+ * 原游戏生产形状池（FirstRoundProTurnPutCtrl.useBlocks）
+ * 39 个 ID，覆盖 1×2 ~ 5×1 / 各种 L、T、Z、S / 2×2、2×3、3×2、3×3 实心与变体
+ * 来源：原游戏 com.block.juggle 反编译 main_bundle.js 行 234644
+ * 注意：刻意不包含 id=1 (1×1)，避免送给玩家过于简单的"安全块"
+ */
 export const COMMON_SHAPE_IDS: number[] = [
-    1, 2, 3, 4, 5, 6, 9, 11, 12, 13, 14, 15, 17, 18, 20, 22,
-    25, 26, 27, 28, 33, 35, 37, 38, 56,
+    2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+    21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37,
+    38, 39, 42,
 ];
 
 export const ALL_SHAPE_IDS: number[] = Array.from(BlockShapeMap.keys());
-
-/**
- * 按格子数得到抽取权重：小块出现概率高、大块概率低。
- * 数值来自 GameConfig（gameconfig.json），未初始化时退回硬编码默认值。
- */
-export function getShapeWeight(shapeId: number): number {
-    const n = BlockNumMap.get(shapeId) ?? 1;
-    // 延迟读 GameConfig，避免循环依赖
-    const cfg = (globalThis as { __GAME_CONFIG__?: { shapeWeightForCells(n: number): number } }).__GAME_CONFIG__;
-    if (cfg) return cfg.shapeWeightForCells(n);
-    if (n <= 1) return 12;
-    if (n === 2) return 9;
-    if (n === 3) return 7;
-    if (n === 4) return 5;
-    if (n === 5) return 3;
-    return 2;
-}
 
 /**
  * 新玩家首发的 3 个形状（来自原游戏 03_board_configs/shapeCfg.json firstIds）

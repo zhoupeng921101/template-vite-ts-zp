@@ -65,11 +65,7 @@ export class Preloader extends Scene
     {
         // 初始化全局可调配置（在任何场景开始前）
         const cfg = this.cache.json.get('gameconfig');
-        if (cfg) {
-            GameConfig.instance.init(cfg);
-            // 暴露到 globalThis，给 BlockShapeMap.getShapeWeight 等无循环依赖访问
-            (globalThis as unknown as { __GAME_CONFIG__: unknown }).__GAME_CONFIG__ = GameConfig.instance;
-        }
+        if (cfg) GameConfig.instance.init(cfg);
         this.scene.start('MainMenu');
     }
 }

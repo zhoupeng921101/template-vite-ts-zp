@@ -1,6 +1,6 @@
 // 全局游戏状态（单例）
 import { BinaryBoard } from './BinaryBoard';
-import { BlockShapeMap, COMMON_SHAPE_IDS, getShapeWeight, FIRST_HAND_SHAPE_IDS, BlockNumMap } from './BlockShapeMap';
+import { BlockShapeMap, COMMON_SHAPE_IDS, FIRST_HAND_SHAPE_IDS, BlockNumMap } from './BlockShapeMap';
 import { DynamicWeightDiff } from './DynamicWeightDiff';
 import { AlgorithmKind } from './algorithms/types';
 import { GameConfig } from './GameConfig';
@@ -57,6 +57,8 @@ export interface PendingPiece {
     color: ColorName;
     /** D5 每个填充格上是否带元素图标，按 (r,c) 行优先遍历 shape.shape 时的顺序索引 */
     elements?: (ElementType | null)[];
+    /** 该 piece 是哪个动态调度算法 offer 出来的。落子时回写到 DynamicWeightDiff.addWeight */
+    algo?: AlgorithmKind;
 }
 
 export interface SaveData {
@@ -162,20 +164,9 @@ export class GameState {
         this.refillPieces(board);
     }
 
-    /** 加权随机选 shapeId（小块概率高） */
+    /** 从 13 个白名单形状 ID 中均匀随机抽（仿原游戏 OfferNewBlockHelper612） */
     private randomShapeId(): number {
-        let total = 0;
-        const weights = COMMON_SHAPE_IDS.map((id) => {
-            const w = getShapeWeight(id);
-            total += w;
-            return w;
-        });
-        let r = Math.random() * total;
-        for (let i = 0; i < weights.length; i++) {
-            if (r < weights[i]) return COMMON_SHAPE_IDS[i];
-            r -= weights[i];
-        }
-        return COMMON_SHAPE_IDS[COMMON_SHAPE_IDS.length - 1];
+        return COMMON_SHAPE_IDS[Math.floor(Math.random() * COMMON_SHAPE_IDS.length)];
     }
 
     private randomColor(): ColorName {
@@ -218,18 +209,24 @@ export class GameState {
      * - score < DYNAMIC_ACTIVATION_SCORE（1000）：随机无死亡
      * - 分数 ≥ 1000 且 DynamicWeightDiff 已初始化：按 weightcfg.json tier + 8 算法调度
      * 兜底退到 3 个 1×1。
+     *
+     * 注意：dynamicWeight 的累积不再在这里发生。每个 piece 携带 algo 标签，落子时
+     * 由 placePiece 触发 addWeight，节奏与原版 "每回合一次" 对齐。
      */
     refillPieces(board?: BinaryBoard, score = 0): void {
         const allEmpty = this.operaArr.every((p) => p === null);
         if (!allEmpty) return;
 
-        // 走动态调度（已 init 且有 board 时）
+        // 走动态调度：仅 classic（无尽）模式，对齐原版 chapter=='class' 守卫。
+        // Adventure 模式有官方关卡数据，不应被橡皮筋难度污染。
         const dyn = DynamicWeightDiff.instance;
-        if (board && dyn.isInitialized()) {
+        if (board && dyn.isInitialized() && this.mode === 'classic') {
             const { ids, algo } = dyn.offerTrio(board, score);
-            this.operaArr = ids.map((id) => this.buildPiece(id));
-            // 累积 dynamicWeight：每次 refill 算一次
-            dyn.addWeight(algo);
+            this.operaArr = ids.map((id) => {
+                const p = this.buildPiece(id);
+                p.algo = algo;
+                return p;
+            });
             return;
         }
 
@@ -294,6 +291,12 @@ export class GameState {
 
         // 3) 清空槽位
         this.operaArr[slotIdx] = null;
+
+        // 4) 动态难度反馈：用这块 piece 的 offer-time algo 增量调整 dynamicWeight
+        //    （仅当 piece 携带 algo 标签时；首发手 / 调试注入的 piece 没有 algo，跳过）
+        if (piece.algo != null) {
+            DynamicWeightDiff.instance.addWeight(piece.algo);
+        }
     }
 
     /** 清除棋盘上指定的行/列（在 BinaryBoard.canClearRowCols 之后调用） */

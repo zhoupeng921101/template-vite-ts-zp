@@ -11,7 +11,6 @@ export interface ConfigSchema {
         factorList: Record<string, FactorEntry>;
         algorithmSamples: Record<string, number>;
     };
-    shapeWeights: Record<string, number>;  // "1" "2" "3" "4" "5" "6+"
     firstHand: number[];
     stars: { ratios: [number, number, number] };
     audio: { sfxVolume: number; bgmVolume: number };
@@ -47,11 +46,10 @@ export class GameConfig {
                 },
                 algorithmSamples: {
                     FILL: 80, RANDOM_NO_DIE: 50, ADD3: 60,
-                    EASY_DIFF: 80, DIFF: 100, STRAIGHT_DEATH_DIFF: 200,
+                    EASY_DIFF: 80, DIFF: 160, STRAIGHT_DEATH_DIFF: 320,
                     CLEAR_ALL: 120, ALL_COMBINATION: 150,
                 },
             },
-            shapeWeights: { '1': 12, '2': 9, '3': 7, '4': 5, '5': 3, '6+': 2 },
             firstHand: [9, 39, 24],
             stars: { ratios: [1.0, 1.5, 2.0] },
             audio: { sfxVolume: 0.5, bgmVolume: 0.3 },
@@ -123,10 +121,6 @@ export class GameConfig {
     }
     samplesFor(algoName: string): number {
         return this.current.dynamic.algorithmSamples[algoName] ?? 50;
-    }
-    shapeWeightForCells(n: number): number {
-        const key = n >= 6 ? '6+' : String(n);
-        return this.current.shapeWeights[key] ?? 1;
     }
     firstHand(): number[] { return [...this.current.firstHand]; }
     starRatios(): [number, number, number] {

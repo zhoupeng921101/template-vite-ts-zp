@@ -197,18 +197,6 @@ function buildPanel(cfg: GameConfig): void {
          + '<br>越高越接近目标但越慢;通常 50-200 已足够。'
          + '<br>需要"准"的(如 STRAIGHT_DEATH 找恰好 1 解)给高值,简单的给低值。');
 
-        // Shape weights
-        appendSection(drawer, 'Shape pool weights (by cell count)', (sec) => {
-            for (const k of ['1', '2', '3', '4', '5', '6+']) {
-                const v = c.shapeWeights[k] ?? 1;
-                appendNumber(sec, k, `${k} 格权重`, v, (nv) => {
-                    cfg.set({ shapeWeights: { ...c.shapeWeights, [k]: nv } });
-                }, 0, 50, 1);
-            }
-        }, '每个候选方块按这个权重随机抽形状。<br>权重越高出现频率越高。'
-         + '<br>默认 1 格→12, 2 格→9, 3 格→7, 4 格→5, 5 格→3, 6 格以上→2;小块占主导。'
-         + '<br>想让大块更频繁?把 5/6+ 调到 8+。');
-
         // First hand
         appendSection(drawer, 'First hand shape IDs', (sec) => {
             appendText(sec, 'firstHand', '首发 (逗号分隔)', c.firstHand.join(','), (s) => {

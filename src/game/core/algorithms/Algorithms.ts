@@ -1,8 +1,16 @@
 // 8 种算法实现 —— 每种返回 3 个 shapeId
-// 共同模式：随机采样 N 个候选 trio，按算法目标打分，取最优。
+//
+// FILL / DIFF / STRAIGHT_DEATH_DIFF 三个最重要的算法已升级为 "bit-aware 启发式"：
+// 先用 BoardAnalysis 工具识别棋盘模式（近完成行 / 最大空矩形），定向选块再小规模采样验证。
+// 其余 5 个继续走 Monte-Carlo 采样（够用，对应原版的非关键 WAYNAME）。
 import { BinaryBoard } from '../BinaryBoard';
-import { COMMON_SHAPE_IDS, getShapeWeight, BlockNumMap } from '../BlockShapeMap';
+import { COMMON_SHAPE_IDS, BlockNumMap, BlockShapeMap } from '../BlockShapeMap';
 import { BoardEvaluator } from './BoardEvaluator';
+import {
+    rowsMissingRange, colsMissing, largestEmptyRect, fillRatio,
+    shapesByWidth, shapesByHeight, horizontalLineShape, verticalLineShape,
+    shapesFittingRect,
+} from './BoardAnalysis';
 import { AlgorithmKind, ALGORITHM_NAME } from './types';
 import { GameConfig } from '../GameConfig';
 
@@ -15,24 +23,38 @@ function samples(kind: AlgorithmKind, fallback: number): number {
     }
 }
 
-/** 加权抽一个 shapeId */
-function weightedRandomShape(): number {
-    let total = 0;
-    const weights = COMMON_SHAPE_IDS.map((id) => {
-        const w = getShapeWeight(id);
-        total += w;
-        return w;
-    });
-    let r = Math.random() * total;
-    for (let i = 0; i < weights.length; i++) {
-        if (r < weights[i]) return COMMON_SHAPE_IDS[i];
-        r -= weights[i];
-    }
-    return COMMON_SHAPE_IDS[COMMON_SHAPE_IDS.length - 1];
+/** 从 39 个白名单 ID 中均匀随机抽一个（原版 FirstRoundProTurnPutCtrl.useBlocks） */
+function uniformRandomShape(): number {
+    return COMMON_SHAPE_IDS[Math.floor(Math.random() * COMMON_SHAPE_IDS.length)];
 }
 
 function sampleTrio(): number[] {
-    return [weightedRandomShape(), weightedRandomShape(), weightedRandomShape()];
+    return [uniformRandomShape(), uniformRandomShape(), uniformRandomShape()];
+}
+
+/**
+ * "难块"子池：cells>=5 或 max(w,h)>=4，把整个 trio 的可放置点压低，
+ * 用于 DIFF / STRAIGHT_DEATH_DIFF 这类需要"低解数"的算法。
+ * 在 COMMON_SHAPE_IDS（39 个）中能筛出 ~22 个（5×1、4×1、3×3 实心、3×2 实心、各类 6 格 L/T 等）。
+ */
+const HARD_SHAPE_IDS: number[] = COMMON_SHAPE_IDS.filter((id) => {
+    const cells = BlockNumMap.get(id) ?? 0;
+    const sh = BlockShapeMap.get(id);
+    const maxDim = sh ? Math.max(sh.width, sh.height) : 0;
+    return cells >= 5 || maxDim >= 4;
+});
+
+function hardShape(): number {
+    return HARD_SHAPE_IDS[Math.floor(Math.random() * HARD_SHAPE_IDS.length)];
+}
+
+/**
+ * 难题倾向采样：70% 抽难块、30% 抽普通块。
+ * 全 hard 偏好会让 trio 在中度棋盘上根本无解，混入一些小块能保证至少有解。
+ */
+function sampleHardBiasedTrio(): number[] {
+    const pick = () => (Math.random() < 0.7 ? hardShape() : uniformRandomShape());
+    return [pick(), pick(), pick()];
 }
 
 /** 公共后备：随机无死亡 */
@@ -45,22 +67,102 @@ function fallbackTrio(board: BinaryBoard): number[] {
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// #0 FILL — 填空消除：确保 trio 中至少有一种放置序列会触发消除
+// #0 FILL — 填空消除：bit-aware 版
+//
+// 策略：
+//   1) 扫"近完成行/列"（缺 1~3 格）。
+//   2) 对每个近完成行，看缺口是否连续——如果是，挑一个"刚好填进去"的形状作为
+//      "钥匙块"（kept ID）；不连续就用 1×1。
+//   3) 钥匙块 + 2 个随机块组成 trio；验证 trio 可放且能触发消除。
+//   4) 都搞不出 → 退回原 Monte-Carlo 采样路径。
 // ─────────────────────────────────────────────────────────────────────────
 function fillTrio(board: BinaryBoard, samplesCount = samples(AlgorithmKind.FILL, 80)): number[] {
+    // 1) 找近完成行
+    const candidatesRow = rowsMissingRange(board, 1, 3);
+    const candidatesCol = colsMissing(board, 1).concat(colsMissing(board, 2)).concat(colsMissing(board, 3));
+
+    const keyShapes: number[] = [];
+
+    // 行优先：缺口连续 → 用同长度的横线 shape；不连续 → 用 1×1
+    for (const { gapMask, missing } of candidatesRow) {
+        if (isContiguousMask(gapMask)) {
+            const sid = horizontalLineShape(missing);
+            if (sid != null) keyShapes.push(sid);
+        } else {
+            keyShapes.push(1); // 1×1 总能填散点
+        }
+    }
+    // 列同理
+    for (const { gapMask } of candidatesCol) {
+        if (isContiguousMask(gapMask)) {
+            const m = bitCount(gapMask);
+            const sid = verticalLineShape(m);
+            if (sid != null) keyShapes.push(sid);
+        } else {
+            keyShapes.push(1);
+        }
+    }
+
+    // 2) 用 key + 2 个其它块试 trio
+    //    - 多个 key 可用时：[k1, k2, k3] 三 key 并发，最大化连消
+    //    - 只有 1 个 key 时：[key, random, random]
+    if (keyShapes.length > 0) {
+        const KEY_TRIES = Math.min(samplesCount, 40);
+        let best: { trio: number[]; cleared: number } | null = null;
+        for (let i = 0; i < KEY_TRIES; i++) {
+            let t: number[];
+            if (keyShapes.length >= 3) {
+                // 多 key：随机抽 3 个不同 key
+                const shuffled = keyShapes.slice().sort(() => Math.random() - 0.5);
+                t = [shuffled[0], shuffled[1], shuffled[2]];
+            } else if (keyShapes.length === 2) {
+                t = [keyShapes[0], keyShapes[1], uniformRandomShape()];
+            } else {
+                t = [keyShapes[0], uniformRandomShape(), uniformRandomShape()];
+            }
+            if (!board.checkPutAllBlocks(t)) continue;
+            const result = BoardEvaluator.findBest(board, t, (_rows, cleared) => cleared, 24);
+            if (result && result.cleared > 0) {
+                if (!best || result.cleared > best.cleared) best = { trio: t, cleared: result.cleared };
+                if (best.cleared >= 24) return best.trio; // 3 行已达成
+            }
+        }
+        if (best) return best.trio;
+    }
+
+    // 3) 退回纯采样（原 Monte-Carlo）
     let best: { trio: number[]; cleared: number } | null = null;
     for (let i = 0; i < samplesCount; i++) {
         const t = sampleTrio();
         if (!board.checkPutAllBlocks(t)) continue;
         const result = BoardEvaluator.findBest(board, t, (_rows, cleared) => cleared, 24);
         if (result && result.cleared > 0) {
-            if (!best || result.cleared > best.cleared) {
-                best = { trio: t, cleared: result.cleared };
-            }
-            if (best.cleared >= 16) break; // 已有 ≥2 行/列 消除，够好
+            if (!best || result.cleared > best.cleared) best = { trio: t, cleared: result.cleared };
+            if (best.cleared >= 16) break;
         }
     }
     return best ? best.trio : fallbackTrio(board);
+}
+
+/** 8-bit 掩码：bit 是否构成连续区段 */
+function isContiguousMask(mask: number): boolean {
+    if (mask === 0) return false;
+    // 找出第一个 1 和最后一个 1，看中间是否全 1
+    let firstSet = -1, lastSet = -1;
+    for (let i = 0; i < 8; i++) {
+        if ((mask >> i) & 1) {
+            if (firstSet < 0) firstSet = i;
+            lastSet = i;
+        }
+    }
+    const expected = ((1 << (lastSet - firstSet + 1)) - 1) << firstSet;
+    return mask === expected;
+}
+
+function bitCount(x: number): number {
+    let n = 0;
+    while (x) { n += x & 1; x >>>= 1; }
+    return n;
 }
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -104,37 +206,93 @@ function easyDiffTrio(board: BinaryBoard, samplesCount = samples(AlgorithmKind.E
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// #4 DIFF — 困难难题：解很少（1~3）但仍可解
+// #4 DIFF — 困难难题：bit-aware 版
+//
+// 策略：
+//   1) 算最大空矩形 (W, H)。
+//   2) 选一个 "刚好塞满" 的形状（width≈W、height≈H）作为约束块——它只剩 1~2 个落点。
+//   3) 加 2 个随机块组成 trio，countSolutions ≤ COUNT_LIMIT。
+//   4) 记录历史最低解数，最后退回 hard-biased 采样兜底。
 // ─────────────────────────────────────────────────────────────────────────
-function hardDiffTrio(board: BinaryBoard, samplesCount = samples(AlgorithmKind.DIFF, 100)): number[] {
+function hardDiffTrio(board: BinaryBoard, samplesCount = samples(AlgorithmKind.DIFF, 160)): number[] {
+    const rect = largestEmptyRect(board);
     let best: { trio: number[]; count: number } | null = null;
-    for (let i = 0; i < samplesCount; i++) {
-        const t = sampleTrio();
-        const c = BoardEvaluator.countSolutions(board, t, 6);
-        if (c >= 1 && c <= 3) {
+    const COUNT_LIMIT = 12;
+
+    // 1) 用 "刚好填满最大空矩形" 的块作锚
+    if (rect.w >= 3 || rect.h >= 3) {
+        const anchorCandidates = pickAnchorShapes(rect.w, rect.h);
+        const ANCHOR_TRIES = Math.min(samplesCount / 2, 60);
+        for (let i = 0; i < ANCHOR_TRIES; i++) {
+            const anchor = anchorCandidates[i % anchorCandidates.length];
+            const t = [anchor, uniformRandomShape(), uniformRandomShape()];
+            const c = BoardEvaluator.countSolutions(board, t, COUNT_LIMIT);
+            if (c < 1) continue;
             if (!best || c < best.count) best = { trio: t, count: c };
-            if (best.count === 1) break;
+            if (best.count === 1) return best.trio;
         }
+    }
+
+    // 2) hard-biased 采样补充
+    for (let i = 0; i < samplesCount; i++) {
+        const t = sampleHardBiasedTrio();
+        const c = BoardEvaluator.countSolutions(board, t, COUNT_LIMIT);
+        if (c < 1) continue;
+        if (!best || c < best.count) best = { trio: t, count: c };
+        if (best.count === 1) break;
+        if (best.count <= 3 && i > samplesCount / 2) break;
     }
     return best ? best.trio : fallbackTrio(board);
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// #5 STRAIGHT_DEATH_DIFF — 直觉/死亡难题：恰好 1 个合法解，错一步即死
+// #5 STRAIGHT_DEATH_DIFF — 直觉/死亡难题：bit-aware 版
+//
+// 策略：同 DIFF 的锚点法，但目标更严格（c=1 立即返回）。再加一层 "塞 2 个锚"
+// 的双锁定尝试，把候选空间砍到极小。
 // ─────────────────────────────────────────────────────────────────────────
-function straightDeathTrio(board: BinaryBoard, samplesCount = samples(AlgorithmKind.STRAIGHT_DEATH_DIFF, 200)): number[] {
-    let any1: number[] | null = null;
-    let any2: number[] | null = null;
-    for (let i = 0; i < samplesCount; i++) {
-        const t = sampleTrio();
-        const c = BoardEvaluator.countSolutions(board, t, 4);
-        if (c === 1) return t;        // 完美匹配
-        if (c === 2 && !any2) any2 = t;
-        if (c === 3 && !any1) any1 = t;
+function straightDeathTrio(board: BinaryBoard, samplesCount = samples(AlgorithmKind.STRAIGHT_DEATH_DIFF, 320)): number[] {
+    const rect = largestEmptyRect(board);
+    let best: { trio: number[]; count: number } | null = null;
+    const COUNT_LIMIT = 8;
+
+    // 1) 双锚点：连续两个大块锁死布局
+    if (rect.w >= 3 && rect.h >= 3) {
+        const anchorCandidates = pickAnchorShapes(rect.w, rect.h);
+        const ANCHOR_TRIES = Math.min(samplesCount / 2, 80);
+        for (let i = 0; i < ANCHOR_TRIES; i++) {
+            const a1 = anchorCandidates[i % anchorCandidates.length];
+            const a2 = anchorCandidates[(i + 1) % anchorCandidates.length];
+            const t = [a1, a2, uniformRandomShape()];
+            const c = BoardEvaluator.countSolutions(board, t, COUNT_LIMIT);
+            if (c === 1) return t;
+            if (c < 1) continue;
+            if (!best || c < best.count) best = { trio: t, count: c };
+        }
     }
-    if (any2) return any2;
-    if (any1) return any1;
-    return fallbackTrio(board);
+
+    // 2) hard-biased 采样补充
+    for (let i = 0; i < samplesCount; i++) {
+        const t = sampleHardBiasedTrio();
+        const c = BoardEvaluator.countSolutions(board, t, COUNT_LIMIT);
+        if (c === 1) return t;
+        if (c < 1) continue;
+        if (!best || c < best.count) best = { trio: t, count: c };
+    }
+    return best ? best.trio : fallbackTrio(board);
+}
+
+/**
+ * 给定最大空矩形尺寸 (w, h)，返回能塞进去的、面积大的形状候选（优先大尺寸）。
+ * 用于 DIFF / STRAIGHT_DEATH 的锚点选择：锚点越大、候选放置位置越少 → 解数越少。
+ */
+function pickAnchorShapes(w: number, h: number): number[] {
+    const candidates = shapesFittingRect(w, h)
+        .map((id) => ({ id, cells: BlockNumMap.get(id) ?? 0 }))
+        .sort((a, b) => b.cells - a.cells)
+        .slice(0, 10);            // 取面积最大的 10 个
+    if (candidates.length === 0) return [uniformRandomShape()];
+    return candidates.map((c) => c.id);
 }
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -201,5 +359,5 @@ export function generateTrioByAlgorithm(
 export const _internal = {
     fillTrio, randomNoDieTrio, add3Trio, easyDiffTrio, hardDiffTrio,
     straightDeathTrio, clearAllTrio, allCombinationTrio,
-    sampleTrio, weightedRandomShape, BlockNumMap,
+    sampleTrio, uniformRandomShape, BlockNumMap,
 };

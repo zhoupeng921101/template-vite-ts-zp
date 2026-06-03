@@ -119,7 +119,9 @@ console.log('\n== 8. 智能 refill：随机无死亡 ==');
     assert(JSON.stringify(ids) === '[9,39,24]', `首发 = [9,39,24] (实际 ${JSON.stringify(ids)})`);
 }
 {
-    // 加权随机：跑 1000 次，最小块(1)应远多于大块(13=3×3 实心)
+    // 原版 39-shape 均匀池：跑 1000 次（3000 个 piece）
+    //  - 池中无 id=1（原版 useBlocks 刻意排除），出现次数应为 0
+    //  - 大块 id=13（3×3 实心）应正常出现，期望频率 ≈ 3000/39 ≈ 77
     const s = new GameState();
     const counts = new Map<number, number>();
     for (let i = 0; i < 1000; i++) {
@@ -129,9 +131,10 @@ console.log('\n== 8. 智能 refill：随机无死亡 ==');
             counts.set(p!.shapeId, (counts.get(p!.shapeId) ?? 0) + 1);
         }
     }
-    const small = counts.get(1) ?? 0;
+    const noOne = counts.get(1) ?? 0;
     const big = counts.get(13) ?? 0;
-    assert(small > big * 3, `小块 1 (${small}) 显著多于大块 13 (${big})`);
+    assert(noOne === 0, `1×1 已从池中排除 (实际出现 ${noOne} 次)`);
+    assert(big > 30 && big < 150, `3×3 实心 (id=13) 出现频率合理 (实际 ${big}, 期望 ≈77)`);
 }
 
 console.log('\n== 9. D7 收集模式星级评定 ==');
@@ -153,6 +156,40 @@ console.log('\n== 9. D7 收集模式星级评定 ==');
     // 没有收集目标返回 0
     s.resetCollection();
     assert(s.calcCollectionStars() === 0, '无收集目标 → 0★');
+}
+
+console.log('\n== 10. 动态调度 mode 守卫：仅 classic 走 DynamicWeightDiff ==');
+{
+    // 准备：用一份 weightcfg 初始化 DynamicWeightDiff，并设置高分让 tier 命中
+    const fs = require('fs') as typeof import('fs');
+    const path = require('path') as typeof import('path');
+    const cfg = JSON.parse(fs.readFileSync(
+        path.join(__dirname, '..', 'public', 'assets', 'data', 'weightcfg.json'),
+        'utf8',
+    ));
+    const { DynamicWeightDiff } = require('../src/game/core/DynamicWeightDiff');
+    DynamicWeightDiff.instance.init(cfg);
+    DynamicWeightDiff.instance.reset();
+
+    // Classic 模式 + 高分 → piece 应带 algo 标签
+    const classicState = new GameState();
+    classicState.mode = 'classic';
+    classicState.operaArr = [null, null, null];
+    const b1 = new BinaryBoard();
+    classicState.refillPieces(b1, 5000);
+    const classicAlgos = classicState.operaArr.map((p) => p!.algo);
+    assert(classicAlgos.every((a) => a != null),
+        `classic 高分 piece 全带 algo 标签 (实际 ${JSON.stringify(classicAlgos)})`);
+
+    // Adventure 模式 + 高分 → piece 不应带 algo（走纯随机无死局）
+    const advState = new GameState();
+    advState.mode = 'adventure';
+    advState.operaArr = [null, null, null];
+    const b2 = new BinaryBoard();
+    advState.refillPieces(b2, 5000);
+    const advAlgos = advState.operaArr.map((p) => p!.algo);
+    assert(advAlgos.every((a) => a == null),
+        `adventure 即使高分也不挂 algo (实际 ${JSON.stringify(advAlgos)})`);
 }
 
 console.log(`\n=== 结果: ${passed} 通过, ${failed} 失败 ===`);

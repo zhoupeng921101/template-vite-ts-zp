@@ -135,6 +135,8 @@ export class Game extends Scene
             // Classic 新局
             this.state.saveArr = Array.from({ length: 8 }, () => new Array(8).fill(-1));
             this.board.convertFromArr(this.state.saveArr);
+            // 新局开始：重置 FirstRound 计数器，让 FirstRound override 生效
+            DynamicWeightDiff.instance.beginGame();
             this.state.setFirstHand();
             this.state.levelTarget = 0;
             this.state.resetCollection();

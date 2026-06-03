@@ -8,6 +8,10 @@ import {
     DEFAULT_WEIGHT_FACTORS, DYNAMIC_ACTIVATION_SCORE,
 } from './algorithms/types';
 import { GameConfig } from './GameConfig';
+import {
+    OfferRegistry, TriggerTiming, OfferContext,
+    registerDefaultOverrides,
+} from './OfferOverrides';
 
 const STORAGE_KEY = 'block_blast_dynamic_v1';
 
@@ -33,11 +37,20 @@ export class DynamicWeightDiff {
     /** E1 强制算法（HUD 调试用，非 null 时所有 refill 都用这个算法） */
     forceAlgorithm: AlgorithmKind | null = null;
 
+    /** 本局已发过几次 trio（用于 FirstRound 触发判断） */
+    private refillIndex = 0;
+
     /** 用 weightcfg.json 初始化 */
     init(cfg: WeightConfigEntry[]): void {
         this.weightConfig = cfg || [];
         this.initialized = true;
         this.load();
+        registerDefaultOverrides();
+    }
+
+    /** 一局新开始时调用，清零 refillIndex（用于 FirstRound 时机） */
+    beginGame(): void {
+        this.refillIndex = 0;
     }
 
     isInitialized(): boolean { return this.initialized; }
@@ -92,20 +105,41 @@ export class DynamicWeightDiff {
      * 未激活（score < 1000）或未初始化 → 直接 RANDOM_NO_DIE
      */
     offerTrio(board: BinaryBoard, score: number): { ids: number[]; algo: AlgorithmKind; tierId: number | null } {
-        // E1 强制算法优先
+        // E1 强制算法优先（HUD 调试通道，跳过所有其他层）
         if (this.forceAlgorithm != null) {
             const algo = this.forceAlgorithm;
             this.lastAlgo = algo;
             this.lastTierId = -1;
             const ids = generateTrioByAlgorithm(algo, board);
+            this.refillIndex++;
             return { ids, algo, tierId: -1 };
         }
+
+        // 优先级覆盖层：在 tier+odds 抽签前，先问注册到 FirstRound / EmptyBoard 的 override
+        const ctx: OfferContext = {
+            trigger: this.refillIndex === 0 ? TriggerTiming.FirstRound : TriggerTiming.EmptyBoard,
+            board, score,
+            refillIndex: this.refillIndex,
+            lastAlgo: this.lastAlgo,
+        };
+        const reg = OfferRegistry.instance;
+        const overrideHit = reg.dispatch(ctx.trigger, ctx);
+        if (overrideHit) {
+            // override 不属于动态调度算法，记一个伪 algo 让 addWeight 用中性反馈
+            const algo = AlgorithmKind.RANDOM_NO_DIE;
+            this.lastAlgo = algo;
+            this.lastTierId = -2;            // -2 表示"被 override 覆盖"
+            this.refillIndex++;
+            return { ids: overrideHit.ids, algo, tierId: -2 };
+        }
+
         const activation = this.tryGetConfigActivation() ?? DYNAMIC_ACTIVATION_SCORE;
         if (!this.initialized || score < activation) {
             const algo = AlgorithmKind.RANDOM_NO_DIE;
             this.lastAlgo = algo;
             this.lastTierId = null;
             const ids = generateTrioByAlgorithm(algo, board);
+            this.refillIndex++;
             return { ids, algo, tierId: null };
         }
         const tier = this.getCurrentTier(score);
@@ -114,12 +148,14 @@ export class DynamicWeightDiff {
             this.lastAlgo = algo;
             this.lastTierId = null;
             const ids = generateTrioByAlgorithm(algo, board);
+            this.refillIndex++;
             return { ids, algo, tierId: null };
         }
         const algo = this.pickAlgorithmFromTier(tier);
         const ids = generateTrioByAlgorithm(algo, board);
         this.lastAlgo = algo;
         this.lastTierId = tier.id;
+        this.refillIndex++;
         return { ids, algo, tierId: tier.id };
     }
 
@@ -151,6 +187,7 @@ export class DynamicWeightDiff {
     reset(): void {
         this.dynamicWeight = 0;
         this.preDynamicWeight = 0;
+        this.refillIndex = 0;
         this.save();
     }
 

@@ -110,6 +110,8 @@ console.log('\n== 5. STRAIGHT_DEATH_DIFF vs EASY_DIFF：解数差异 ==');
         easySols += BoardEvaluator.countSolutions(b2, t2, 50);
     }
     assert(deathSols < easySols, `DEATH 解数 (${deathSols}) < EASY 解数 (${easySols})`);
+    // 改造后 DEATH 应有显著更低的解数（难块倾向采样 + 历史最优追踪）
+    assert(deathSols * 2 <= easySols, `DEATH 显著低于 EASY (DEATH*2=${deathSols*2} ≤ EASY=${easySols})`);
 }
 
 console.log('\n== 6. EASY_DIFF：解数应多 ==');
@@ -142,6 +144,7 @@ console.log('\n== 7. ADD3 vs RANDOM_NO_DIE：熵增应更高 ==');
 
 console.log('\n== 8. DynamicWeightDiff：低分走 RANDOM_NO_DIE ==');
 {
+    const { OfferRegistry } = require('../src/game/core/OfferOverrides');
     const dyn = DynamicWeightDiff.instance;
     dyn.init([
         { id: 1, FillBlankOdds: 100, RandomOdds: 0, EntropyOdds: 0, EasyOdds: 0,
@@ -149,6 +152,7 @@ console.log('\n== 8. DynamicWeightDiff：低分走 RANDOM_NO_DIE ==');
           HighScoreRange: [1000, -1], FactorRange: [-9999, 9999] },
     ]);
     dyn.reset();
+    OfferRegistry.instance.clear(); // 关掉 override，测纯 base 路径
     const b = emptyBoard();
     const r = dyn.offerTrio(b, 500); // 低于 1000 阈值
     assert(r.algo === AlgorithmKind.RANDOM_NO_DIE, `score<1000 用 RANDOM_NO_DIE (实际 ${r.algo})`);
@@ -157,6 +161,7 @@ console.log('\n== 8. DynamicWeightDiff：低分走 RANDOM_NO_DIE ==');
 
 console.log('\n== 9. DynamicWeightDiff：高分使用 tier 调度 ==');
 {
+    const { OfferRegistry } = require('../src/game/core/OfferOverrides');
     const dyn = DynamicWeightDiff.instance;
     dyn.init([
         // 只有 FILL 概率非零，必选 FILL
@@ -165,6 +170,7 @@ console.log('\n== 9. DynamicWeightDiff：高分使用 tier 调度 ==');
           HighScoreRange: [1000, -1], FactorRange: [-9999, 9999] },
     ]);
     dyn.reset();
+    OfferRegistry.instance.clear(); // 关掉 override，测纯 base 路径
     const b = boardFromRows([0, 0, 0, 0, 0, 0, 0, 0xfe]); // 第 7 行 7 格 → FILL 应该有戏
     const r = dyn.offerTrio(b, 5000);
     assert(r.algo === AlgorithmKind.FILL, `score>=1000 + tier 抽样 → FILL (实际 ${r.algo})`);
@@ -211,6 +217,7 @@ console.log('\n== 11. 持久化 ==');
 
 console.log('\n== 12. E1 forceAlgorithm 覆盖 tier ==');
 {
+    const { OfferRegistry } = require('../src/game/core/OfferOverrides');
     const dyn = DynamicWeightDiff.instance;
     dyn.init([
         { id: 1, FillBlankOdds: 100, RandomOdds: 0, EntropyOdds: 0, EasyOdds: 0,
@@ -218,6 +225,7 @@ console.log('\n== 12. E1 forceAlgorithm 覆盖 tier ==');
           HighScoreRange: [1000, -1], FactorRange: [-9999, 9999] },
     ]);
     dyn.reset();
+    OfferRegistry.instance.clear(); // 关掉 override 隔离 base 路径
     dyn.forceAlgorithm = AlgorithmKind.STRAIGHT_DEATH_DIFF;
     const r = dyn.offerTrio(emptyBoard(), 5000);
     assert(r.algo === AlgorithmKind.STRAIGHT_DEATH_DIFF, `forceAlgorithm 覆盖 tier (实际 ${r.algo})`);
@@ -230,6 +238,70 @@ console.log('\n== 12. E1 forceAlgorithm 覆盖 tier ==');
     dyn.forceAlgorithm = null;
     const r3 = dyn.offerTrio(emptyBoard(), 5000);
     assert(r3.algo === AlgorithmKind.FILL, `清 force 后 tier 抽样恢复`);
+}
+
+console.log('\n== 13a. bit-aware FILL：近完成行应被高效填满 ==');
+{
+    // 棋盘：每行都缺最右边 1 格 → bit-aware 应该挑 1×1 / 1×n 之类塞进去
+    const rows = [0xfe, 0xfe, 0xfe, 0xfe, 0xfe, 0, 0, 0]; // 5 行各缺 1 格
+    let cleared3orMore = 0;
+    for (let i = 0; i < 12; i++) {
+        const b = boardFromRows([...rows]);
+        const t = generateTrioByAlgorithm(AlgorithmKind.FILL, b);
+        const sim = BoardEvaluator.findBest(b, t, (_r, c) => c, 24);
+        if (sim && sim.cleared >= 24) cleared3orMore++; // 24 格 = 3 整行
+    }
+    assert(cleared3orMore >= 8,
+        `bit-aware FILL 12 次中 ≥8 次能清 ≥3 行 (实际 ${cleared3orMore})`);
+}
+
+console.log('\n== 13b. bit-aware DIFF：vs RANDOM_NO_DIE 在受限棋盘上 ==');
+{
+    // 高度受限棋盘：6 行已满，只剩底 2 行 + 上半角落零碎洞
+    // 最大空矩形 = 2×8，bit-aware 应该挑大块（5×1、4×1、3×2 实心）锁定
+    const rows = [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x80, 0x80];
+    let diffTotal = 0, randomTotal = 0;
+    for (let i = 0; i < 10; i++) {
+        const b1 = boardFromRows([...rows]);
+        const tDiff = generateTrioByAlgorithm(AlgorithmKind.DIFF, b1);
+        diffTotal += BoardEvaluator.countSolutions(b1, tDiff, 50);
+        const b2 = boardFromRows([...rows]);
+        const tRnd = generateTrioByAlgorithm(AlgorithmKind.RANDOM_NO_DIE, b2);
+        randomTotal += BoardEvaluator.countSolutions(b2, tRnd, 50);
+    }
+    assert(diffTotal < randomTotal,
+        `DIFF 总解数 (${diffTotal}) < RANDOM 总解数 (${randomTotal})`);
+}
+
+console.log('\n== 13. OfferOverride：FirstRound 优先级覆盖 ==');
+{
+    const { OfferRegistry, TriggerTiming, registerDefaultOverrides } = require('../src/game/core/OfferOverrides');
+    const dyn = DynamicWeightDiff.instance;
+    dyn.init([
+        // Hard-only tier，没有 override 时应该出 DIFF
+        { id: 1, FillBlankOdds: 0, RandomOdds: 0, EntropyOdds: 0, EasyOdds: 0,
+          HardOdds: 100, IntuitionOdds: 0, Clearboard: 0, Allunite: 0,
+          HighScoreRange: [1000, -1], FactorRange: [-9999, 9999] },
+    ]);
+    dyn.reset();
+    registerDefaultOverrides();
+    dyn.beginGame(); // refillIndex = 0 → FirstRound override 命中
+
+    // 棋盘非空，避免 EmptyBoard override 抢先（FirstRound 优先级是 2，EmptyBoard 是 3）
+    // 实际上 FirstRound 与 EmptyBoard 是不同 trigger 桶，但 trigger 由 refillIndex 决定，
+    // refillIndex=0 → trigger = FirstRound，所以只会问 FirstRound 桶
+    const b = boardFromRows([0xff, 0, 0, 0, 0, 0, 0, 0]);
+    const r = dyn.offerTrio(b, 5000);
+    assert(r.tierId === -2, `首次 refill 被 override 接管，tierId 应为 -2 (实际 ${r.tierId})`);
+
+    // 第二次 refill：refillIndex=1 → trigger=EmptyBoard，board 非空 → 不命中 → 回 base 路径
+    const r2 = dyn.offerTrio(b, 5000);
+    assert(r2.tierId === 1, `第二次 refill 回到 base tier (实际 ${r2.tierId})`);
+    assert(r2.algo === AlgorithmKind.DIFF, `第二次 refill 出 DIFF (实际 ${r2.algo})`);
+
+    // EmptyBoard 覆盖：棋盘空 + refillIndex>0
+    const r3 = dyn.offerTrio(emptyBoard(), 5000);
+    assert(r3.tierId === -2, `空棋盘被 EmptyBoard override 接管 (实际 ${r3.tierId})`);
 }
 
 console.log(`\n=== 结果: ${passed} 通过, ${failed} 失败 ===`);
