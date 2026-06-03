@@ -8,6 +8,7 @@ import { LevelLoader } from '../core/LevelLoader';
 import { DynamicWeightDiff } from '../core/DynamicWeightDiff';
 import { GameConfig } from '../core/GameConfig';
 import { DebugHUD } from '../debug/DebugHUD';
+import { TFLiteInferencer, TFLiteModelKey } from '../core/algorithms/TFLiteInferencer';
 
 // 棋盘渲染常量
 const BOARD_X = 25;          // 棋盘左上 X
@@ -262,6 +263,33 @@ export class Game extends Scene
                 this.state.operaArr[i] = { shapeId, color };
                 this.renderSlots();
             },
+            // TFLite 诊断钩子
+            tflite: {
+                isReady: (key: string) => {
+                    const map: Record<string, TFLiteModelKey> = {
+                        fill: TFLiteModelKey.FILL,
+                        add3: TFLiteModelKey.ADD3,
+                        death: TFLiteModelKey.DEATH,
+                    };
+                    return TFLiteInferencer.instance.isReady(map[key] ?? (key as TFLiteModelKey));
+                },
+                offerTrio: (key: string) => {
+                    const map: Record<string, TFLiteModelKey> = {
+                        fill: TFLiteModelKey.FILL,
+                        add3: TFLiteModelKey.ADD3,
+                        death: TFLiteModelKey.DEATH,
+                    };
+                    return TFLiteInferencer.instance.offerTrioAsync(map[key] ?? (key as TFLiteModelKey), this.state.saveArr);
+                },
+                offerTrioAsync: (key: string) => {
+                    const map: Record<string, TFLiteModelKey> = {
+                        fill: TFLiteModelKey.FILL,
+                        add3: TFLiteModelKey.ADD3,
+                        death: TFLiteModelKey.DEATH,
+                    };
+                    return TFLiteInferencer.instance.offerTrioAsync(map[key] ?? (key as TFLiteModelKey), this.state.saveArr);
+                },
+            },
         };
 
         this.input.on('dragstart', (_p: Input.Pointer, obj: GameObjects.Container) => {
@@ -394,9 +422,16 @@ export class Game extends Scene
                     }
 
                     // 5.6 三个槽全空 → 智能补充（保证 3 个能全放下）
+                    //     用 async 路径走 ONNX 神经网络（FILL/ADD3/DEATH 算法）；
+                    //     fire-and-forget：不阻塞 dragend，槽位刷新比常规晚 ~150ms 显现
                     if (this.state.operaArr.every((p) => p === null)) {
-                        this.state.refillPieces(this.board, this.state.score);
-                        this.renderSlots();
+                        this.state.refillPiecesAsync(this.board, this.state.score)
+                            .then(() => this.renderSlots())
+                            .catch((e) => {
+                                console.warn('[refillAsync] failed, fallback sync:', e);
+                                this.state.refillPieces(this.board, this.state.score);
+                                this.renderSlots();
+                            });
                     }
 
                     // H1 保存局内进度

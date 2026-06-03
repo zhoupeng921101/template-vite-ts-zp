@@ -60,20 +60,29 @@ export interface WeightFactor {
 }
 
 /**
- * 简化版 weightList：
- *   - 给玩家"福利"的算法（FILL / CLEAR_ALL / RANDOM_NO_DIE）→ 正值（让 dynamicWeight 涨 → 进入更难的 tier）
- *   - 给玩家"惩罚"的算法（DIFF / STRAIGHT_DEATH_DIFF / ADD3）→ 负值（dynamicWeight 跌 → 回到简单 tier）
- *   - EASY_DIFF / ALL_COMBINATION 为中性偏正
+ * 真实 weightList，来自原游戏 cfg.json (`unitWay.json`) 中
+ * `feature.dynamicWeightDiff[0].param.weightList`（feature id=184100001）。
+ *
+ * 设计逻辑（与最初直觉相反）：
+ *   - 软算法（FILL / RANDOM_NO_DIE / CLEAR_ALL / ALL_COMBINATION）→ basic 为负，
+ *     给玩家"福利"后 factor 下降 → 下次还落在偏软 tier。**强化"放水"惯性**。
+ *   - 硬算法（ADD3 / EASY_DIFF / DIFF / STRAIGHT_DEATH_DIFF）→ basic 为正，
+ *     刚整了一波难题后 factor 上升 → 下次更可能继续硬 tier。**强化"惩罚"惯性**。
+ *
+ * 这是 **动量** 模型而非补偿模型：连续硬题会累加 +10/+20/+20...，把玩家
+ * 推进高难度 tier；一遇到软算法（preDynamicWeight 反号）就 reset 到 basic，
+ * 拉回中性区间。CLEAR_ALL / STRAIGHT_DEATH_DIFF 的系数 ±20/±40 最大，
+ * 代表"大事件"时的剧烈摆动。
  */
 export const DEFAULT_WEIGHT_FACTORS: Record<AlgorithmKind, WeightFactor> = {
-    [AlgorithmKind.FILL]:               { basic: +40, consecutive: +20 },
-    [AlgorithmKind.RANDOM_NO_DIE]:      { basic: +15, consecutive: +5 },
-    [AlgorithmKind.ADD3]:               { basic: -25, consecutive: -10 },
-    [AlgorithmKind.EASY_DIFF]:          { basic: +30, consecutive: +12 },
-    [AlgorithmKind.DIFF]:               { basic: -40, consecutive: -15 },
-    [AlgorithmKind.STRAIGHT_DEATH_DIFF]:{ basic: -80, consecutive: -30 },
-    [AlgorithmKind.CLEAR_ALL]:          { basic: +60, consecutive: +30 },
-    [AlgorithmKind.ALL_COMBINATION]:    { basic: +35, consecutive: +15 },
+    [AlgorithmKind.FILL]:               { basic: -10, consecutive: -20 },
+    [AlgorithmKind.RANDOM_NO_DIE]:      { basic:  -5, consecutive: -10 },
+    [AlgorithmKind.ADD3]:               { basic:   5, consecutive:  10 },
+    [AlgorithmKind.EASY_DIFF]:          { basic:   5, consecutive:  10 },
+    [AlgorithmKind.DIFF]:               { basic:  10, consecutive:  20 },
+    [AlgorithmKind.STRAIGHT_DEATH_DIFF]:{ basic:  20, consecutive:  40 },
+    [AlgorithmKind.CLEAR_ALL]:          { basic: -20, consecutive: -40 },
+    [AlgorithmKind.ALL_COMBINATION]:    { basic: -10, consecutive: -20 },
 };
 
 /** 算法激活的分数下限（对应原游戏 isCondition: score > 1000） */

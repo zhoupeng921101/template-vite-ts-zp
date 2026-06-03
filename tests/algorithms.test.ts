@@ -187,14 +187,16 @@ console.log('\n== 10. addWeight：正向算法推 dynamicWeight 上升 ==');
     ]);
     dyn.reset();
     const before = dyn.getDynamicWeight();
-    dyn.addWeight(AlgorithmKind.CLEAR_ALL);   // basic +60
-    dyn.addWeight(AlgorithmKind.CLEAR_ALL);   // 同向 consecutive +30
+    // 真实 weightList: CLEAR_ALL = [-20, -40]
+    dyn.addWeight(AlgorithmKind.CLEAR_ALL);   // 首次：basic = -20
+    dyn.addWeight(AlgorithmKind.CLEAR_ALL);   // 同向：consecutive = -40
     const after = dyn.getDynamicWeight();
-    assert(after - before === 90, `2 次 CLEAR_ALL 增 90 (实际 ${after - before})`);
+    assert(after - before === -60, `2 次 CLEAR_ALL 累计 -60 (实际 ${after - before})`);
 
-    dyn.addWeight(AlgorithmKind.DIFF);  // 换向 basic -40
+    // DIFF = [+10, +20]，与 preDynamicWeight=-40 反号 → 用 basic=+10
+    dyn.addWeight(AlgorithmKind.DIFF);
     const afterDiff = dyn.getDynamicWeight();
-    assert(afterDiff - after === -40, `换向 DIFF basic -40 (实际 ${afterDiff - after})`);
+    assert(afterDiff - after === 10, `换向 DIFF basic +10 (实际 ${afterDiff - after})`);
 }
 
 console.log('\n== 11. 持久化 ==');

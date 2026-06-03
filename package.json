@@ -26,6 +26,7 @@
     "vite": "^6.3.1"
   },
   "dependencies": {
+    "onnxruntime-web": "^1.26.0",
     "phaser": "4.0.0",
     "terser": "^5.39.0"
   }

@@ -1,5 +1,7 @@
 import { Scene } from 'phaser';
 import { GameConfig } from '../core/GameConfig';
+import { BoardWeightProvider } from '../core/algorithms/BoardWeightProvider';
+import { TFLiteInferencer } from '../core/algorithms/TFLiteInferencer';
 
 export class Preloader extends Scene
 {
@@ -52,6 +54,8 @@ export class Preloader extends Scene
         this.load.json('weightcfg', 'data/weightcfg.json');
         // 游戏可调配置（算法采样次数 / factor / 形状权重 / 首发 / 音量 / 道具 / 星级）
         this.load.json('gameconfig', 'data/gameconfig.json');
+        // LightGBM 棋盘复杂度模型（390 棵决策树，3MB） —— 原版 complex_model_1111_v1_new
+        this.load.json('complex_model', 'data/complex_model.json');
 
         // 音效
         this.load.audio('sfx_place', 'audio/sfx_place.ogg');
@@ -66,6 +70,15 @@ export class Preloader extends Scene
         // 初始化全局可调配置（在任何场景开始前）
         const cfg = this.cache.json.get('gameconfig');
         if (cfg) GameConfig.instance.init(cfg);
+        // 初始化 LightGBM 棋盘评分器
+        const lgbmForest = this.cache.json.get('complex_model');
+        if (lgbmForest) BoardWeightProvider.instance.init(lgbmForest);
+        // 异步加载 TFLite 神经网络（FILL/ADD3/DEATH 算法用）
+        // 不等加载完就进 MainMenu —— 玩家先看主菜单的时间足够后台跑完，
+        // 万一没跑完，算法层会自动回退到 bit-aware 启发式
+        TFLiteInferencer.instance.init('/onnx-runtime/').catch((e) => {
+            console.warn('[TFLite] init failed, falling back to bit-aware algorithms:', e);
+        });
         this.scene.start('MainMenu');
     }
 }

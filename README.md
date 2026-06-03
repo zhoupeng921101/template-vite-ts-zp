@@ -1,4 +1,15 @@
-# Phaser Vite TypeScript Template
+# Block Blast 复刻
+
+Phaser 4 + Vite + TypeScript 复刻 `com.block.juggle v7.7.6`。
+
+## 文档
+
+- [动态难度系统](docs/dynamic-difficulty.md) — `DynamicWeightDiff` 架构、真实 weightList、与原版对齐度、重构日志
+- [TODO](TODO.md) — 阶段化进度
+
+---
+
+# 模板说明（Phaser）
 
 This is a Phaser project template that uses Vite for bundling. It supports hot-reloading for quick development workflow, includes TypeScript support and scripts to generate production-ready builds.
 

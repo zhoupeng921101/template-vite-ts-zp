@@ -2,14 +2,14 @@
   "dynamic": {
     "activationScore": 1000,
     "factorList": {
-      "FILL":                { "basic":  40, "consecutive":  20 },
-      "RANDOM_NO_DIE":       { "basic":  15, "consecutive":   5 },
-      "ADD3":                { "basic": -25, "consecutive": -10 },
-      "EASY_DIFF":           { "basic":  30, "consecutive":  12 },
-      "DIFF":                { "basic": -40, "consecutive": -15 },
-      "STRAIGHT_DEATH_DIFF": { "basic": -80, "consecutive": -30 },
-      "CLEAR_ALL":           { "basic":  60, "consecutive":  30 },
-      "ALL_COMBINATION":     { "basic":  35, "consecutive":  15 }
+      "FILL":                { "basic": -10, "consecutive": -20 },
+      "RANDOM_NO_DIE":       { "basic":  -5, "consecutive": -10 },
+      "ADD3":                { "basic":   5, "consecutive":  10 },
+      "EASY_DIFF":           { "basic":   5, "consecutive":  10 },
+      "DIFF":                { "basic":  10, "consecutive":  20 },
+      "STRAIGHT_DEATH_DIFF": { "basic":  20, "consecutive":  40 },
+      "CLEAR_ALL":           { "basic": -20, "consecutive": -40 },
+      "ALL_COMBINATION":     { "basic": -10, "consecutive": -20 }
     },
     "algorithmSamples": {
       "FILL":                 80,

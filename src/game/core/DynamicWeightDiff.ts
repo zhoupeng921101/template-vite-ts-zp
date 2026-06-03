@@ -1,7 +1,7 @@
 // 主分发器：按 weightcfg.json 选 tier，按 tier 内 odds 抽算法，调用算法生成 trio
 // 模仿原游戏 main_bundle.js 中的 DynamicWeightDiff 类
 import { BinaryBoard } from './BinaryBoard';
-import { generateTrioByAlgorithm } from './algorithms/Algorithms';
+import { generateTrioByAlgorithm, generateTrioByAlgorithmAsync } from './algorithms/Algorithms';
 import {
     AlgorithmKind, ALGORITHM_NAME,
     WeightConfigEntry, ODDS_FIELDS,
@@ -153,6 +153,61 @@ export class DynamicWeightDiff {
         }
         const algo = this.pickAlgorithmFromTier(tier);
         const ids = generateTrioByAlgorithm(algo, board);
+        this.lastAlgo = algo;
+        this.lastTierId = tier.id;
+        this.refillIndex++;
+        return { ids, algo, tierId: tier.id };
+    }
+
+    /**
+     * 异步主入口：与 offerTrio 同语义，但 FILL/ADD3/STRAIGHT_DEATH_DIFF
+     * 算法走 ONNX 神经网络（约 50ms × 3 ≈ 150ms 一次 refill）。
+     * 模型未就绪时和 sync 路径一致 fallback。
+     */
+    async offerTrioAsync(board: BinaryBoard, score: number): Promise<{ ids: number[]; algo: AlgorithmKind; tierId: number | null }> {
+        if (this.forceAlgorithm != null) {
+            const algo = this.forceAlgorithm;
+            this.lastAlgo = algo;
+            this.lastTierId = -1;
+            const ids = await generateTrioByAlgorithmAsync(algo, board);
+            this.refillIndex++;
+            return { ids, algo, tierId: -1 };
+        }
+        const ctx: OfferContext = {
+            trigger: this.refillIndex === 0 ? TriggerTiming.FirstRound : TriggerTiming.EmptyBoard,
+            board, score,
+            refillIndex: this.refillIndex,
+            lastAlgo: this.lastAlgo,
+        };
+        const reg = OfferRegistry.instance;
+        const overrideHit = reg.dispatch(ctx.trigger, ctx);
+        if (overrideHit) {
+            const algo = AlgorithmKind.RANDOM_NO_DIE;
+            this.lastAlgo = algo;
+            this.lastTierId = -2;
+            this.refillIndex++;
+            return { ids: overrideHit.ids, algo, tierId: -2 };
+        }
+        const activation = this.tryGetConfigActivation() ?? DYNAMIC_ACTIVATION_SCORE;
+        if (!this.initialized || score < activation) {
+            const algo = AlgorithmKind.RANDOM_NO_DIE;
+            this.lastAlgo = algo;
+            this.lastTierId = null;
+            const ids = await generateTrioByAlgorithmAsync(algo, board);
+            this.refillIndex++;
+            return { ids, algo, tierId: null };
+        }
+        const tier = this.getCurrentTier(score);
+        if (!tier) {
+            const algo = AlgorithmKind.RANDOM_NO_DIE;
+            this.lastAlgo = algo;
+            this.lastTierId = null;
+            const ids = await generateTrioByAlgorithmAsync(algo, board);
+            this.refillIndex++;
+            return { ids, algo, tierId: null };
+        }
+        const algo = this.pickAlgorithmFromTier(tier);
+        const ids = await generateTrioByAlgorithmAsync(algo, board);
         this.lastAlgo = algo;
         this.lastTierId = tier.id;
         this.refillIndex++;

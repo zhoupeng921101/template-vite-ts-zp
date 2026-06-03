@@ -1,8 +1,11 @@
 // 8 种算法实现 —— 每种返回 3 个 shapeId
 //
-// FILL / DIFF / STRAIGHT_DEATH_DIFF 三个最重要的算法已升级为 "bit-aware 启发式"：
-// 先用 BoardAnalysis 工具识别棋盘模式（近完成行 / 最大空矩形），定向选块再小规模采样验证。
-// 其余 5 个继续走 Monte-Carlo 采样（够用，对应原版的非关键 WAYNAME）。
+// 三档质量：
+//   1) TFLite 神经网络（FILL / ADD3 / STRAIGHT_DEATH_DIFF）—— 真原版同款模型，
+//      `TFLiteInferencer.isReady()` 为 true 时优先用，输出 trio 再做合法性校验。
+//   2) bit-aware 启发式（FILL / DIFF / STRAIGHT_DEATH_DIFF）—— TFLite 未就绪 / 输出
+//      不合法时的兜底。识别棋盘模式 + 定向选块。
+//   3) Monte-Carlo（其他 5 个算法）—— 简化版采样打分。
 import { BinaryBoard } from '../BinaryBoard';
 import { COMMON_SHAPE_IDS, BlockNumMap, BlockShapeMap } from '../BlockShapeMap';
 import { BoardEvaluator } from './BoardEvaluator';
@@ -11,8 +14,44 @@ import {
     shapesByWidth, shapesByHeight, horizontalLineShape, verticalLineShape,
     shapesFittingRect,
 } from './BoardAnalysis';
+import { TFLiteInferencer, TFLiteModelKey } from './TFLiteInferencer';
 import { AlgorithmKind, ALGORITHM_NAME } from './types';
 import { GameConfig } from '../GameConfig';
+
+/**
+ * 把 BinaryBoard 转回 8×8 saveArr 格式（TFLite 输入需要）。
+ * 我们不关心颜色，所以直接用 0/1 标记占用。
+ */
+function boardToSaveArr(board: BinaryBoard): number[][] {
+    const out: number[][] = [];
+    for (let r = 0; r < 8; r++) {
+        const row: number[] = [];
+        for (let c = 0; c < 8; c++) {
+            row.push(board.emptyAt(c, r) ? -1 : 1);
+        }
+        out.push(row);
+    }
+    return out;
+}
+
+/**
+ * 异步：用 ONNX 模型出 trio。若模型未就绪 / 输出无效 / 不可放，返回 null。
+ * 上层只在 async 路径（generateTrioByAlgorithmAsync）调用；sync 路径不用 ML。
+ */
+async function tryTFLiteTrioAsync(key: TFLiteModelKey, board: BinaryBoard): Promise<number[] | null> {
+    const inf = TFLiteInferencer.instance;
+    if (!inf.isReady(key)) return null;
+    try {
+        const ids = await inf.offerTrioAsync(key, boardToSaveArr(board));
+        for (const id of ids) {
+            if (id <= 0 || !BlockShapeMap.has(id)) return null;
+        }
+        if (!board.checkPutAllBlocks(ids)) return null;
+        return ids;
+    } catch {
+        return null;
+    }
+}
 
 /** 从 Config 拿采样次数（GameConfig 始终有默认值，无需 fallback） */
 function samples(kind: AlgorithmKind, fallback: number): number {
@@ -353,6 +392,27 @@ export function generateTrioByAlgorithm(
         case AlgorithmKind.ALL_COMBINATION:     return allCombinationTrio(board);
         default:                                return randomNoDieTrio(board);
     }
+}
+
+/**
+ * 异步主分发器：FILL/ADD3/STRAIGHT_DEATH_DIFF 优先用 ONNX 神经网络，
+ * 模型未就绪或推理失败时回退 sync bit-aware。
+ * 其余 5 个算法不走 ML，直接走 sync。
+ */
+export async function generateTrioByAlgorithmAsync(
+    algo: AlgorithmKind,
+    board: BinaryBoard,
+): Promise<number[]> {
+    let mlKey: TFLiteModelKey | null = null;
+    if (algo === AlgorithmKind.FILL) mlKey = TFLiteModelKey.FILL;
+    else if (algo === AlgorithmKind.ADD3) mlKey = TFLiteModelKey.ADD3;
+    else if (algo === AlgorithmKind.STRAIGHT_DEATH_DIFF) mlKey = TFLiteModelKey.DEATH;
+
+    if (mlKey) {
+        const ml = await tryTFLiteTrioAsync(mlKey, board);
+        if (ml) return ml;
+    }
+    return generateTrioByAlgorithm(algo, board);
 }
 
 // 暴露给单元测试

@@ -230,6 +230,34 @@ export class GameState {
             return;
         }
 
+        this._fallbackRandomRefill(board);
+    }
+
+    /**
+     * 异步 refill —— FILL/ADD3/STRAIGHT_DEATH_DIFF 算法走 ONNX 神经网络。
+     * 调用约 50ms × 3 = 150ms。Game.ts 在 dragend 后 await 这个，玩家看到的
+     * 槽位刷新有一点延迟，但符合"复刻原版精度"目标。
+     */
+    async refillPiecesAsync(board?: BinaryBoard, score = 0): Promise<void> {
+        const allEmpty = this.operaArr.every((p) => p === null);
+        if (!allEmpty) return;
+
+        const dyn = DynamicWeightDiff.instance;
+        if (board && dyn.isInitialized() && this.mode === 'classic') {
+            const { ids, algo } = await dyn.offerTrioAsync(board, score);
+            this.operaArr = ids.map((id) => {
+                const p = this.buildPiece(id);
+                p.algo = algo;
+                return p;
+            });
+            return;
+        }
+
+        this._fallbackRandomRefill(board);
+    }
+
+    private _fallbackRandomRefill(board?: BinaryBoard): void {
+
         // 旧行为：board 给但 dyn 未初始化 → 随机无死亡
         let chosen: PendingPiece[] | null = null;
         for (let attempt = 0; attempt < 50; attempt++) {
