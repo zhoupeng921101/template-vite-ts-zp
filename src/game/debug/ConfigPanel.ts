@@ -219,20 +219,6 @@ function buildPanel(cfg: GameConfig): void {
          + '原游戏值 <strong>[9, 39, 24]</strong>(2×2 实 / 3×3 对角 / 3×3 L)。'
          + '<br>shape ID 见 <code>BlockShapeMap.ts</code>(1=1×1, 11=5×1, 13=3×3 实心 …)。');
 
-        // Tools
-        appendSection(drawer, 'Tools', (sec) => {
-            appendNumber(sec, 'refreshCount', '刷新道具次数', c.tools.refreshCount, (v) => {
-                cfg.set({ tools: { ...c.tools, refreshCount: v } });
-            }, 0, 99, 1);
-            appendNumber(sec, 'hammerCount', '锤子道具次数', c.tools.hammerCount, (v) => {
-                cfg.set({ tools: { ...c.tools, hammerCount: v } });
-            }, 0, 99, 1);
-            appendNumber(sec, 'lightningCount', '闪电道具次数', c.tools.lightningCount, (v) => {
-                cfg.set({ tools: { ...c.tools, lightningCount: v } });
-            }, 0, 99, 1);
-        }, '每局开局给玩家的<strong>道具初始数量</strong>。'
-         + '<br>· 🔄 刷新 — 倒空 3 槽重抽<br>· 🔨 锤子 — 删单格<br>· ⚡ 闪电 — 清整行+整列十字');
-
         // Stars
         appendSection(drawer, 'Star thresholds (target × ratio)', (sec) => {
             const labels = ['1★', '2★', '3★'];

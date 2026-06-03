@@ -57,15 +57,6 @@ export class Game extends Scene
     // 当前正在拖的形状 ID（dragstart 时记录，便于 ghost 渲染）
     private draggingShapeId = -1;
 
-    // A5/G 道具：刷新/锤子/闪电次数（来自 Config）
-    private refreshCount = 3;
-    private hammerCount = 3;
-    private lightningCount = 2;
-    /** G 当前激活的道具：null = 正常拖拽 */
-    private activeTool: 'hammer' | 'lightning' | null = null;
-    private boardClickZone?: GameObjects.Zone;
-    private toolHighlight?: GameObjects.Graphics;
-
     // B3 init() 接收的模式/关卡
     private initMode: 'classic' | 'adventure' = 'classic';
     private initLevel = 1;
@@ -140,9 +131,6 @@ export class Game extends Scene
             this.state.score = 0;
             this.state.combo = 0;
             this.displayedScore = 0;
-            this.refreshCount = GameConfig.instance.refreshCount();
-            this.hammerCount = GameConfig.instance.hammerCount();
-            this.lightningCount = GameConfig.instance.lightningCount();
         } else {
             // Classic 新局
             this.state.saveArr = Array.from({ length: 8 }, () => new Array(8).fill(-1));
@@ -153,11 +141,7 @@ export class Game extends Scene
             this.state.score = 0;
             this.state.combo = 0;
             this.displayedScore = 0;
-            this.refreshCount = GameConfig.instance.refreshCount();
-            this.hammerCount = GameConfig.instance.hammerCount();
-            this.lightningCount = GameConfig.instance.lightningCount();
         }
-        this.activeTool = null;
         this.levelCompletedTriggered = false;
 
         // ─── 渲染骨架 ──────────────────────────────────────────
@@ -256,12 +240,6 @@ export class Game extends Scene
             if (!bgm) bgm = this.sound.add('bgm_main', { loop: true, volume: GameConfig.instance.bgmVolume() });
             if (!bgm.isPlaying) bgm.play();
         }
-
-        // A5/G 道具按钮
-        this.createRefreshTool();
-        this.createHammerTool();
-        this.createLightningTool();
-        this.createToolClickZone();
 
         // C-B 调试 HUD（F9 切换）
         this.hud = new DebugHUD(this);
@@ -706,9 +684,6 @@ export class Game extends Scene
                 moves: this.state.moves,
                 initialHigh: this.initialHigh,
                 newBestTriggered: this.newBestTriggered,
-                refreshCount: this.refreshCount,
-                hammerCount: this.hammerCount,
-                lightningCount: this.lightningCount,
             };
             localStorage.setItem(this.sessionKey(), JSON.stringify(data));
         } catch { /* ignore */ }
@@ -731,9 +706,6 @@ export class Game extends Scene
             this.state.moves = d.moves;
             this.initialHigh = d.initialHigh;
             this.newBestTriggered = d.newBestTriggered;
-            this.refreshCount = d.refreshCount;
-            this.hammerCount = d.hammerCount;
-            this.lightningCount = d.lightningCount;
             this.board.convertFromArr(this.state.saveArr);
             return true;
         } catch { return false; }
@@ -741,277 +713,6 @@ export class Game extends Scene
 
     private clearSession(): void {
         GameState.clearSession(this.state.mode, this.state.level);
-    }
-
-    /** A5 刷新道具：清空 3 个候选 + 智能 refill，限本局 3 次 */
-    private createRefreshTool(): void {
-        const x = 45, y = 740;
-        const bg = this.add.graphics();
-        const icon = this.add.text(x, y, '⟲', {
-            fontSize: '28px', color: '#ffffff', fontStyle: 'bold',
-        }).setOrigin(0.5);
-        const countBadge = this.add.text(x + 14, y + 14, '', {
-            fontSize: '13px', color: '#ffe066', fontStyle: 'bold',
-        }).setOrigin(0.5);
-
-        const redraw = () => {
-            bg.clear();
-            const active = this.refreshCount > 0;
-            bg.fillStyle(active ? 0x4477ff : 0x333355, 0.9);
-            bg.fillCircle(x, y, 24);
-            bg.lineStyle(2, active ? 0x88aaff : 0x556699, 1);
-            bg.strokeCircle(x, y, 24);
-            icon.setColor(active ? '#ffffff' : '#888899');
-            countBadge.setText(String(this.refreshCount));
-            countBadge.setVisible(this.refreshCount > 0);
-        };
-        redraw();
-
-        const hit = this.add.zone(x, y, 56, 56)
-            .setOrigin(0.5)
-            .setInteractive({ useHandCursor: true });
-
-        hit.on('pointerdown', () => {
-            if (this.refreshCount <= 0) return;
-            if (this.draggingShapeId > 0) return;
-            this.refreshCount--;
-            this.state.operaArr = [null, null, null];
-            this.state.refillPieces(this.board);
-            this.renderSlots();
-            redraw();
-            this.safePlay('sfx_place', { volume: GameConfig.instance.sfxVolume() * 0.8 });
-            this.tweens.add({
-                targets: icon, angle: '+=360', duration: 350, ease: 'Cubic.Out',
-            });
-            this.saveSession();
-        });
-    }
-
-    /** G1 锤子：单格删除 */
-    private createHammerTool(): void {
-        const x = 110, y = 740;
-        const bg = this.add.graphics();
-        const icon = this.add.text(x, y, '🔨', { fontSize: '24px' }).setOrigin(0.5);
-        const countBadge = this.add.text(x + 14, y + 14, '', {
-            fontSize: '13px', color: '#ffe066', fontStyle: 'bold',
-        }).setOrigin(0.5);
-        const redraw = () => {
-            bg.clear();
-            const active = this.hammerCount > 0;
-            const armed = this.activeTool === 'hammer';
-            bg.fillStyle(armed ? 0xff9944 : (active ? 0x884422 : 0x333355), 0.9);
-            bg.fillCircle(x, y, 24);
-            bg.lineStyle(2, armed ? 0xffe066 : (active ? 0xcc8866 : 0x556699), 1);
-            bg.strokeCircle(x, y, 24);
-            icon.setAlpha(active ? 1 : 0.4);
-            countBadge.setText(String(this.hammerCount));
-            countBadge.setVisible(this.hammerCount > 0);
-        };
-        this.hammerRedraw = redraw;
-        redraw();
-        const hit = this.add.zone(x, y, 56, 56).setOrigin(0.5).setInteractive({ useHandCursor: true });
-        hit.on('pointerdown', () => {
-            if (this.hammerCount <= 0) return;
-            if (this.draggingShapeId > 0) return;
-            this.activeTool = this.activeTool === 'hammer' ? null : 'hammer';
-            this.refreshToolUI();
-        });
-    }
-
-    /** G2 闪电：清整行 + 整列（十字消除） */
-    private createLightningTool(): void {
-        const x = 175, y = 740;
-        const bg = this.add.graphics();
-        const icon = this.add.text(x, y, '⚡', { fontSize: '24px' }).setOrigin(0.5);
-        const countBadge = this.add.text(x + 14, y + 14, '', {
-            fontSize: '13px', color: '#ffe066', fontStyle: 'bold',
-        }).setOrigin(0.5);
-        const redraw = () => {
-            bg.clear();
-            const active = this.lightningCount > 0;
-            const armed = this.activeTool === 'lightning';
-            bg.fillStyle(armed ? 0xffcc22 : (active ? 0x886622 : 0x333355), 0.9);
-            bg.fillCircle(x, y, 24);
-            bg.lineStyle(2, armed ? 0xffee66 : (active ? 0xccaa66 : 0x556699), 1);
-            bg.strokeCircle(x, y, 24);
-            icon.setAlpha(active ? 1 : 0.4);
-            countBadge.setText(String(this.lightningCount));
-            countBadge.setVisible(this.lightningCount > 0);
-        };
-        this.lightningRedraw = redraw;
-        redraw();
-        const hit = this.add.zone(x, y, 56, 56).setOrigin(0.5).setInteractive({ useHandCursor: true });
-        hit.on('pointerdown', () => {
-            if (this.lightningCount <= 0) return;
-            if (this.draggingShapeId > 0) return;
-            this.activeTool = this.activeTool === 'lightning' ? null : 'lightning';
-            this.refreshToolUI();
-        });
-    }
-
-    private hammerRedraw?: () => void;
-    private lightningRedraw?: () => void;
-
-    /** 所有工具 UI 重画 + ghost 显示控制 */
-    private refreshToolUI(): void {
-        this.hammerRedraw?.();
-        this.lightningRedraw?.();
-        if (this.activeTool && this.boardClickZone) {
-            this.boardClickZone.setInteractive();
-            this.input.setDefaultCursor('crosshair');
-        } else {
-            if (this.boardClickZone) this.boardClickZone.disableInteractive();
-            this.input.setDefaultCursor('');
-            if (this.toolHighlight) this.toolHighlight.clear();
-        }
-    }
-
-    /** 工具模式下，棋盘上的点击 zone */
-    private createToolClickZone(): void {
-        this.toolHighlight = this.add.graphics().setDepth(45);
-        this.boardClickZone = this.add.zone(
-            BOARD_X + BOARD_SIZE / 2, BOARD_Y + BOARD_SIZE / 2,
-            BOARD_SIZE, BOARD_SIZE,
-        ).setOrigin(0.5).setDepth(60);
-        this.boardClickZone.disableInteractive();
-
-        this.boardClickZone.on('pointermove', (p: Input.Pointer) => {
-            if (!this.activeTool) return;
-            const col = Math.floor((p.x - BOARD_X) / CELL_SIZE);
-            const row = Math.floor((p.y - BOARD_Y) / CELL_SIZE);
-            if (col < 0 || col >= 8 || row < 0 || row >= 8) return;
-            this.drawToolPreview(row, col);
-        });
-        this.boardClickZone.on('pointerdown', (p: Input.Pointer) => {
-            if (!this.activeTool) return;
-            const col = Math.floor((p.x - BOARD_X) / CELL_SIZE);
-            const row = Math.floor((p.y - BOARD_Y) / CELL_SIZE);
-            if (col < 0 || col >= 8 || row < 0 || row >= 8) return;
-            if (this.activeTool === 'hammer') this.applyHammer(row, col);
-            else this.applyLightning(row, col);
-        });
-    }
-
-    private drawToolPreview(row: number, col: number): void {
-        if (!this.toolHighlight) return;
-        this.toolHighlight.clear();
-        this.toolHighlight.fillStyle(this.activeTool === 'hammer' ? 0xff9944 : 0xffcc22, 0.35);
-        if (this.activeTool === 'hammer') {
-            this.toolHighlight.fillRoundedRect(
-                BOARD_X + col * CELL_SIZE + 2,
-                BOARD_Y + row * CELL_SIZE + 2,
-                CELL_SIZE - 4, CELL_SIZE - 4, 4,
-            );
-        } else {
-            // 整行
-            this.toolHighlight.fillRoundedRect(
-                BOARD_X + 2, BOARD_Y + row * CELL_SIZE + 2,
-                BOARD_SIZE - 4, CELL_SIZE - 4, 4,
-            );
-            // 整列
-            this.toolHighlight.fillRoundedRect(
-                BOARD_X + col * CELL_SIZE + 2, BOARD_Y + 2,
-                CELL_SIZE - 4, BOARD_SIZE - 4, 4,
-            );
-        }
-    }
-
-    private applyHammer(row: number, col: number): void {
-        if (this.state.saveArr[row][col] === -1) return;  // 空格不消耗
-        // 收集元素
-        const elem = this.state.elementArr[row][col];
-        if (elem) {
-            this.state.collected[elem] = (this.state.collected[elem] ?? 0) + 1;
-            this.state.elementArr[row][col] = null;
-        }
-        this.state.saveArr[row][col] = -1;
-        // 同步二进制板
-        this.board.rowBinary[row] &= ~(1 << (8 - col - 1));
-        // 销毁 sprite + 动画
-        const spr = this.cellSprites[row][col];
-        if (spr) {
-            this.cellSprites[row][col] = null;
-            this.tweens.add({
-                targets: spr, scale: 1.5, alpha: 0, duration: 250,
-                onComplete: () => spr.destroy(),
-            });
-        }
-        const ov = this.elementOverlays[row][col];
-        if (ov) {
-            this.elementOverlays[row][col] = null;
-            this.tweens.add({
-                targets: ov, y: ov.y - 40, alpha: 0, scale: 1.5, duration: 350,
-                onComplete: () => ov.destroy(),
-            });
-        }
-        this.hammerCount--;
-        this.activeTool = null;
-        this.refreshToolUI();
-        this.refreshCollectCounters();
-        this.safePlay('sfx_place', { volume: GameConfig.instance.sfxVolume() });
-        this.saveSession();
-        this.afterToolUse();
-    }
-
-    private applyLightning(row: number, col: number): void {
-        const positions: { r: number; c: number }[] = [];
-        for (let c = 0; c < 8; c++) positions.push({ r: row, c });
-        for (let r = 0; r < 8; r++) if (r !== row) positions.push({ r, c: col });
-        // 收集元素
-        const sprites: GameObjects.Image[] = [];
-        const overlays: GameObjects.Text[] = [];
-        for (const { r, c } of positions) {
-            const e = this.state.elementArr[r][c];
-            if (e) {
-                this.state.collected[e] = (this.state.collected[e] ?? 0) + 1;
-                this.state.elementArr[r][c] = null;
-            }
-            if (this.state.saveArr[r][c] !== -1) {
-                this.state.saveArr[r][c] = -1;
-                this.board.rowBinary[r] &= ~(1 << (8 - c - 1));
-                const s = this.cellSprites[r][c];
-                if (s) { sprites.push(s); this.cellSprites[r][c] = null; }
-            }
-            const ov = this.elementOverlays[r][c];
-            if (ov) { overlays.push(ov); this.elementOverlays[r][c] = null; }
-        }
-        // 动画
-        for (const s of sprites) {
-            this.tweens.add({
-                targets: s, scale: 1.4, alpha: 0, duration: 300,
-                onComplete: () => s.destroy(),
-            });
-        }
-        for (const o of overlays) {
-            this.tweens.add({
-                targets: o, y: o.y - 60, alpha: 0, scale: 1.5, duration: 400,
-                onComplete: () => o.destroy(),
-            });
-        }
-        this.spawnClearParticles(positions);
-        this.lightningCount--;
-        this.activeTool = null;
-        this.refreshToolUI();
-        this.refreshCollectCounters();
-        this.safePlay('sfx_clear', { volume: GameConfig.instance.sfxVolume() * 1.2 });
-        this.saveSession();
-        this.afterToolUse();
-    }
-
-    private afterToolUse(): void {
-        this.checkLevelComplete();
-        // 工具后 GameOver 判定：剩余候选无一可放
-        const remainingIds = this.state.operaArr
-            .filter((p): p is NonNullable<typeof p> => p !== null)
-            .map((p) => p.shapeId);
-        if (remainingIds.length > 0 && !this.board.canPutAnyOf(remainingIds)) {
-            this.state.save();
-            this.clearSession();
-            const previousHigh = this.initialHigh;
-            const mode = this.state.mode;
-            const level = this.state.level;
-            this.time.delayedCall(500, () => this.scene.start('GameOver', { previousHigh, mode, level }));
-        }
     }
 
     /** A3 粒子爆破：每个消除格中心炸 5 颗 diamond */

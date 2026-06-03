@@ -13,7 +13,6 @@ export interface ConfigSchema {
     };
     shapeWeights: Record<string, number>;  // "1" "2" "3" "4" "5" "6+"
     firstHand: number[];
-    tools: { refreshCount: number; hammerCount: number; lightningCount: number };
     stars: { ratios: [number, number, number] };
     audio: { sfxVolume: number; bgmVolume: number };
 }
@@ -54,7 +53,6 @@ export class GameConfig {
             },
             shapeWeights: { '1': 12, '2': 9, '3': 7, '4': 5, '5': 3, '6+': 2 },
             firstHand: [9, 39, 24],
-            tools: { refreshCount: 3, hammerCount: 3, lightningCount: 2 },
             stars: { ratios: [1.0, 1.5, 2.0] },
             audio: { sfxVolume: 0.5, bgmVolume: 0.3 },
         };
@@ -131,9 +129,6 @@ export class GameConfig {
         return this.current.shapeWeights[key] ?? 1;
     }
     firstHand(): number[] { return [...this.current.firstHand]; }
-    refreshCount(): number { return this.current.tools.refreshCount; }
-    hammerCount(): number { return this.current.tools.hammerCount; }
-    lightningCount(): number { return this.current.tools.lightningCount; }
     starRatios(): [number, number, number] {
         const r = this.current.stars.ratios;
         return [r[0], r[1], r[2]];

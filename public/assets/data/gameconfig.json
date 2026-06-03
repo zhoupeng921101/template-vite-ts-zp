@@ -31,11 +31,6 @@
     "6+": 2
   },
   "firstHand": [9, 39, 24],
-  "tools": {
-    "refreshCount":   3,
-    "hammerCount":    3,
-    "lightningCount": 2
-  },
   "stars": {
     "ratios": [1.0, 1.5, 2.0]
   },
